@@ -87,7 +87,7 @@ def feuille_lisezmoi(wb):
 
     lignes = [
         ("titre", "Consultant agent IA — étude de rentabilité v2"),
-        ("sous", "Déploiement d'agents IA + abonnement mensuel récurrent · projection 01/2027 → 01/2030"),
+        ("sous", "Déploiement d'agents IA + abonnement mensuel récurrent · projection 01/2027 -> 01/2030"),
         ("vide", ""),
         ("section", "Comment utiliser ce classeur"),
         ("txt", "1.  Ouvrez l'onglet « Paramètres ». C'est la seule feuille où vous saisissez des valeurs."),
@@ -932,19 +932,19 @@ def feuille_jalons(wb):
 
     R, Y = REF, HYP
     jalons = [
-        (u"Le MRR dépasse le CA de déploiement", u"MRR ≥ CA déploiement",
+        (u"Le MRR dépasse le CA de déploiement", u"MRR >= CA déploiement",
          u"(%s>=%s)" % (rg("F"), rg("E"))),
-        (u"Le net consultant couvre les dépenses", u"net consultant ≥ dépenses",
+        (u"Le net consultant couvre les dépenses", u"net consultant >= dépenses",
          u"(%s>=%s)" % (rg("J"), R["depenses"])),
-        (u"MRR à 1 000 €/mois", u"MRR ≥ 1 000 €", u"(%s>=1000)" % rg("F")),
-        (u"Le net consultant égale le salaire net IR", u"net consultant ≥ salaire net",
+        (u"MRR à 1 000 €/mois", u"MRR >= 1 000 €", u"(%s>=1000)" % rg("F")),
+        (u"Le net consultant égale le salaire net IR", u"net consultant >= salaire net",
          u"(%s>=%s)" % (rg("J"), Y["sal_net_mois"])),
-        (u"MRR à 5 000 €/mois", u"MRR ≥ 5 000 €", u"(%s>=5000)" % rg("F")),
-        (u"Le MRR net seul couvre les dépenses", u"net MRR ≥ dépenses",
+        (u"MRR à 5 000 €/mois", u"MRR >= 5 000 €", u"(%s>=5000)" % rg("F")),
+        (u"Le MRR net seul couvre les dépenses", u"net MRR >= dépenses",
          u"(%s>=%s)" % (rg("H"), R["depenses"])),
-        (u"Le MRR net seul remplace le salaire", u"net MRR ≥ salaire net",
+        (u"Le MRR net seul remplace le salaire", u"net MRR >= salaire net",
          u"(%s>=%s)" % (rg("H"), Y["sal_net_mois"])),
-        (u"MRR à 10 000 €/mois", u"MRR ≥ 10 000 €", u"(%s>=10000)" % rg("F")),
+        (u"MRR à 10 000 €/mois", u"MRR >= 10 000 €", u"(%s>=10000)" % rg("F")),
     ]
     r = hr + 1
     for label, cond_txt, cond in jalons:

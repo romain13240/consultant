@@ -18,7 +18,10 @@ concluante : au revoir, chiffre d'affaires 0 €.
 | `assets/app.js` | Interface : paramètres, tableaux, graphiques, persistance |
 | `assets/style.css` | Design system (fond blanc, typographie système) |
 | `sheets/build_gsheet.py` | Générateur du classeur Google Sheets |
+| `sheets/google_auth.py` | Jeton OAuth et services Google, partagés |
 | `sheets/push_to_drive.py` | Publication du classeur en Google Sheet natif |
+| `sheets/push_html_to_drive.py` | Publication de l'étude HTML autonome sur Drive |
+| `diagnostic-8080.sh` | Identifie le serveur qui occupe le port 8080 |
 | `sheets/consultant-agent-ia-v2.xlsx` | Classeur prêt à importer dans Drive |
 | `consultant.service` | Unité systemd utilisateur du Raspberry Pi |
 | `deploy-rpi.sh` | Déploiement sur Raspberry Pi |
@@ -91,6 +94,21 @@ surchargeable par `GOOGLE_TOKEN`.
 Drive, puis l'ouvrir avec Google Sheets (Drive convertit le classeur en
 conservant formules, mises en forme et graphiques) et le renommer
 `Consultant agent IA v2`.
+
+### L'étude HTML sur Drive
+
+```bash
+python3 sheets/push_html_to_drive.py
+```
+
+Assemble `index.html` et `assets/` en un document autonome — CSS et JavaScript
+intégrés, aucune ressource externe — et le dépose dans le même dossier Drive
+sous le nom `Consultant agent IA — étude.html`. Relancer met à jour le fichier
+au lieu d'en créer un second. `--local` s'arrête après l'assemblage, sans envoi.
+
+Le fichier est déposé sans conversion : Drive ne le rendra pas comme une page
+web, il faut le télécharger et l'ouvrir dans un navigateur. Une conversion en
+Google Doc détruirait graphiques et paramètres interactifs.
 
 Pour régénérer le classeur après modification du modèle :
 

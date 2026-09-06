@@ -12,3 +12,6 @@ desktop.ini
 # Fichiers temporaires de génération
 sheets/_*.txt
 sheets/_*.xlsx
+
+# Documents assemblés à la demande
+sheets/consultant-agent-ia-autonome.html
