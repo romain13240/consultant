@@ -144,6 +144,21 @@ main() {
       chmod o+r "$PUBLIC_DIR/index.html" "$PUBLIC_DIR/index marcus.html" 2>/dev/null || true
       chmod o+rx "$BASE_WEB" 2>/dev/null || $SUDO chmod o+rx "$BASE_WEB" 2>/dev/null || true
     fi
+
+    # Publie aussi la version Claude comme fichier indépendant à la racine,
+    # à côté de « index suivi patrimoine.html », sans remplacer celui-ci.
+    CLAUDE_FILE="$APP_DIR/web/index claude.html"
+    ROOT_CLAUDE="$RACINE_WEB/index claude.html"
+    if [ -f "$CLAUDE_FILE" ]; then
+      if ln -sfn "$CLAUDE_FILE" "$ROOT_CLAUDE" 2>/dev/null; then
+        ok "Fichier racine publié : $ROOT_CLAUDE"
+      elif [ -n "$SUDO" ] && $SUDO ln -sfn "$CLAUDE_FILE" "$ROOT_CLAUDE"; then
+        ok "Fichier racine publié (sudo) : $ROOT_CLAUDE"
+      else
+        warn "Impossible de publier $ROOT_CLAUDE — droits insuffisants."
+        warn "À faire manuellement : sudo ln -sfn '$CLAUDE_FILE' '$ROOT_CLAUDE'"
+      fi
+    fi
   fi
 
   # --------------------------------------------- 3. Service utilisateur 8001
