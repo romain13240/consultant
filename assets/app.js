@@ -188,7 +188,6 @@
       retentionPlus: F.pctBrut(retPlus, 0),
       churnMensuel: F.pct(R.taux.churnMensuel, 2),
       tauxNetIRCons: F.pctBrut(p.tauxNetIRConsultant, 0),
-      tauxNetIRSalaire: F.pctBrut(p.tauxNetIRSalaire, 0),
       salaireNetMensuel: F.euro(p.salaireNetMensuelNG),
       salaireNetIRMensuel: F.euro(s.netMensuelIR),
       depensesMensuelles: F.euro(p.depensesMensuelles),
@@ -221,7 +220,6 @@
       ngJoursAn: F.jours(s.joursAnnuelTempsPartiel, 0),
       ngJoursSite: F.jours(s.joursSurSiteAnnuel, 0),
       ngHeuresReellesJour: F.heures(s.heuresTravailReelParJour, 2).replace(',00', ''),
-      ngAnnuelAvantIR: F.euro(s.annuelAvantIR),
       ngAnnuelNetIR: F.euro(s.annuelNetIR),
       ngEuroHeure: F.euro2(s.euroHeurePresence),
       ngEuroHeureCerebral: F.euro2(s.euroHeureCerebral),
@@ -425,13 +423,13 @@
       ['Le net consultant égale le salaire net IR', 'net consultant ≥ ' + F.euro(R.salaire.netMensuelIR), R.jalons.netEgaleSalaire],
       ['MRR à 5 000 €/mois', 'MRR ≥ 5 000 €', R.jalons.mrr5k],
       ['Le MRR net seul couvre les dépenses', 'net MRR ≥ ' + F.euro(R.params.depensesMensuelles), R.jalons.mrrNetCouvreDepenses],
-      ['Le revenu total double le salaire', 'revenu total ≥ ' + F.euro(2 * R.salaire.netMensuelIR), R.jalons.revenuDouble],
+      ['Le MRR net seul remplace le salaire', 'net MRR ≥ ' + F.euro(R.salaire.netMensuelIR), R.jalons.mrrNetEgaleSalaire],
       ['MRR à 10 000 €/mois', 'MRR ≥ 10 000 €', R.jalons.mrr10k],
     ].filter(j => j[2]).sort((a, b) => a[2].idx - b[2].idx);
     const nonAtteints = [
       ['MRR à 5 000 €/mois', 'MRR ≥ 5 000 €', R.jalons.mrr5k],
       ['MRR à 10 000 €/mois', 'MRR ≥ 10 000 €', R.jalons.mrr10k],
-      ['Le revenu total double le salaire', 'revenu total ≥ ' + F.euro(2 * R.salaire.netMensuelIR), R.jalons.revenuDouble],
+      ['Le MRR net seul remplace le salaire', 'net MRR ≥ ' + F.euro(R.salaire.netMensuelIR), R.jalons.mrrNetEgaleSalaire],
       ['Le MRR net seul couvre les dépenses', 'net MRR ≥ ' + F.euro(R.params.depensesMensuelles), R.jalons.mrrNetCouvreDepenses],
     ].filter(j => !j[2]);
 

@@ -177,10 +177,8 @@ GROUPES = [
          u"Capacité réelle, hors salariat et vie personnelle."),
     ]),
     (u"Salariat Naval Group", [
-        ("salaire", u"Salaire net mensuel (avant IR)", 3400, u"€/mois", FMT_EUR,
-         u"Salaire net versé, avant prélèvement à la source."),
-        ("net_ir_sal", u"Part du salaire conservée après IR", 0.90, u"%", FMT_PCT0,
-         u"90 % correspond à 10 % de prélèvement à la source."),
+        ("salaire", u"Salaire mensuel net d'impôt (après IR)", 3400, u"€/mois", FMT_EUR,
+         u"Montant réellement disponible chaque mois, prélèvement à la source déjà déduit."),
         ("ng_jours_sem", u"Jours travaillés par semaine (temps partiel)", 4, u"j/sem", FMT_NB1,
          u"Contrat à temps partiel."),
         ("ng_h_presence", u"Heures de présence par jour", 8, u"h/j", FMT_NB1,
@@ -380,12 +378,10 @@ def feuille_hypotheses(wb):
 
     r = _bloc(ws, r, u"Salariat")
     r = _ligne(ws, r, "sal_net_mois", u"Salaire mensuel net d'IR",
-               u"=%s*%s" % (R["salaire"], R["net_ir_sal"]), u"€/mois", FMT_EUR,
-               u"salaire × taux_net_IR_salaire", HYP)
+               u"=%s" % R["salaire"], u"€/mois", FMT_EUR,
+               u"paramètre : déjà net d'impôt", HYP)
     r = _ligne(ws, r, "sal_net_an", u"Salaire annuel net d'IR", u"=%s*12" % HYP["sal_net_mois"],
                u"€/an", FMT_EUR, u"salaire_net_mensuel × 12", HYP)
-    r = _ligne(ws, r, "sal_brut_an", u"Salaire annuel net avant IR", u"=%s*12" % R["salaire"],
-               u"€/an", FMT_EUR, u"salaire × 12", HYP)
     return ws
 
 
@@ -946,8 +942,8 @@ def feuille_jalons(wb):
         (u"MRR à 5 000 €/mois", u"MRR ≥ 5 000 €", u"(%s>=5000)" % rg("F")),
         (u"Le MRR net seul couvre les dépenses", u"net MRR ≥ dépenses",
          u"(%s>=%s)" % (rg("H"), R["depenses"])),
-        (u"Le revenu total double le salaire net", u"revenu total ≥ 2 × salaire net",
-         u"(%s>=2*%s)" % (rg("L"), Y["sal_net_mois"])),
+        (u"Le MRR net seul remplace le salaire", u"net MRR ≥ salaire net",
+         u"(%s>=%s)" % (rg("H"), Y["sal_net_mois"])),
         (u"MRR à 10 000 €/mois", u"MRR ≥ 10 000 €", u"(%s>=10000)" % rg("F")),
     ]
     r = hr + 1

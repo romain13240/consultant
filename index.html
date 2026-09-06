@@ -222,7 +222,7 @@
       <div class="kpi" style="--accent:var(--muted-2)"><div class="kpi__label">Jours annuels travaillés à temps partiel</div><div class="kpi__value" data-v="ngJoursAn"></div><div class="kpi__note"><b data-v="ngJoursSem"></b> par semaine</div></div>
       <div class="kpi" style="--accent:var(--muted-2)"><div class="kpi__label">Jours sur site par an (hors télétravail)</div><div class="kpi__value" data-v="ngJoursSite"></div><div class="kpi__note"><b data-v="ngTeletravail"></b> de télétravail par semaine</div></div>
       <div class="kpi" style="--accent:var(--muted-2)"><div class="kpi__label">Heures de travail réel par jour de présence</div><div class="kpi__value" data-v="ngHeuresReellesJour"></div><div class="kpi__note">contre <b data-v="ngHeuresJour"></b> de présence</div></div>
-      <div class="kpi" style="--accent:var(--green)"><div class="kpi__label">Salaire annuel net d'impôt sur le revenu</div><div class="kpi__value" data-v="ngAnnuelNetIR"></div><div class="kpi__note"><b data-v="salaireNetMensuel"></b>/mois × <span data-v="tauxNetIRSalaire"></span></div></div>
+      <div class="kpi" style="--accent:var(--green)"><div class="kpi__label">Salaire annuel net d'impôt sur le revenu</div><div class="kpi__value" data-v="ngAnnuelNetIR"></div><div class="kpi__note"><b data-v="salaireNetMensuel"></b>/mois × 12</div></div>
     </div>
 
     <div class="grid g2 rv rv-d2" style="margin-top:18px">
@@ -392,7 +392,7 @@
     <div class="sec-head rv">
       <span class="sec-num">06 · CA &amp; REVENUS</span>
       <h2>Du chiffre d'affaires au revenu réellement disponible</h2>
-      <p>Le taux de <span data-v="tauxNetIRCons"></span> appliqué au CA consultant absorbe les cotisations, l'impôt sur le revenu et les frais d'API consommés par les agents. Le salaire, lui, est net à <span data-v="tauxNetIRSalaire"></span>.</p>
+      <p>Le taux de <span data-v="tauxNetIRCons"></span> appliqué au CA consultant absorbe les cotisations, l'impôt sur le revenu et les frais d'API consommés par les agents. Le salaire, lui, entre tel quel : le montant saisi est déjà net d'impôt.</p>
     </div>
 
     <div class="grid g2 rv rv-d1">
@@ -422,7 +422,7 @@
     </div>
 
     <div class="grid g4 rv rv-d3" style="margin-top:20px">
-      <div class="kpi" style="--accent:var(--green)"><div class="kpi__label">Euros de salaire Naval Group annuel (net avant IR)</div><div class="kpi__value" data-v="ngAnnuelAvantIR"></div><div class="kpi__note"><b data-v="ngAnnuelNetIR"></b> après IR</div></div>
+      <div class="kpi" style="--accent:var(--green)"><div class="kpi__label">Euros de salaire Naval Group annuel (net d'IR)</div><div class="kpi__value" data-v="ngAnnuelNetIR"></div><div class="kpi__note"><b data-v="salaireNetMensuel"></b> par mois, impôt déjà déduit</div></div>
       <div class="kpi" style="--accent:var(--blue)"><div class="kpi__label">Euros de revenus mensuels consultant + CDI (an 1)</div><div class="kpi__value" data-v="revMensuelTotalAn1"></div><div class="kpi__note">dont <b data-v="netMensuelConsAn1"></b> de consultant</div></div>
       <div class="kpi" style="--accent:var(--orange)"><div class="kpi__label">Euros de dépenses mensuelles</div><div class="kpi__value" data-v="depensesMensuelles"></div><div class="kpi__note">train de vie complet</div></div>
       <div class="kpi kpi--accent" style="--accent:var(--teal)"><div class="kpi__label">Euros de liquidités supplémentaires par mois (an 1)</div><div class="kpi__value" data-v="epargneMensAn1"></div><div class="kpi__note">soit <b data-v="epargneAnAn1"></b> sur l'année</div></div>
@@ -614,8 +614,8 @@ Net IR         = CA × <span data-v="tauxNetIRCons"></span> = <span data-v="an1N
       <div class="card card--pad">
         <h4 class="sub2" style="margin-top:0">Salariat Naval Group</h4>
         <dl class="kv">
-          <dt>Salaire net annuel avant IR</dt><dd data-v="ngAnnuelAvantIR"></dd>
-          <dt>Salaire net annuel après IR</dt><dd data-v="ngAnnuelNetIR"></dd>
+          <dt>Salaire mensuel net d'impôt</dt><dd data-v="salaireNetMensuel"></dd>
+          <dt>Salaire annuel net d'impôt</dt><dd data-v="ngAnnuelNetIR"></dd>
           <dt>Heures de présence annuelles</dt><dd data-v="ngPresenceAn"></dd>
           <dt>Net IR par heure de présence</dt><dd data-v="ngEuroHeure"></dd>
           <dt>Net IR par heure de travail réel</dt><dd data-v="ngEuroHeureCerebral"></dd>

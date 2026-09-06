@@ -64,10 +64,8 @@
       icone: '🏢',
       desc: "Le socle de revenu et le temps qu'il consomme réellement.",
       params: [
-        { key: 'salaireNetMensuelNG', label: "Salaire net mensuel (avant IR)", unit: '€/mois', def: 3400, min: 0, max: 12000, step: 50, dec: 0,
-          help: "Salaire net versé, avant prélèvement de l'impôt sur le revenu." },
-        { key: 'tauxNetIRSalaire', label: "Part du salaire conservée après IR", unit: '%', def: 90, min: 50, max: 100, step: 1, dec: 0,
-          help: "90 % ⇒ 10 % de prélèvement à la source sur le salaire." },
+        { key: 'salaireNetMensuelNG', label: "Salaire mensuel net d'impôt (après IR)", unit: '€/mois', def: 3400, min: 0, max: 12000, step: 50, dec: 0,
+          help: "Montant réellement disponible chaque mois, prélèvement à la source déjà déduit." },
         { key: 'joursNGParSemaine', label: "Jours travaillés par semaine (temps partiel)", unit: 'j/sem', def: 4, min: 1, max: 6, step: 0.5, dec: 1,
           help: "Contrat à temps partiel : base du calcul des heures de présence." },
         { key: 'heuresPresenceParJourNG', label: "Heures de présence par jour", unit: 'h/j', def: 8, min: 1, max: 14, step: 0.5, dec: 1,
@@ -148,15 +146,13 @@
     const tauxConv = p.tauxConversion / 100;
     const retention = Math.min(0.999999, Math.max(0, p.tauxRetentionAnnuel / 100));
     const netIRCons = p.tauxNetIRConsultant / 100;
-    const netIRSal = p.tauxNetIRSalaire / 100;
 
     /* ======================================================================
        3.1 — BLOC SALARIAT (Naval Group)
        ==================================================================== */
     const salaire = {};
-    salaire.netMensuelAvantIR = p.salaireNetMensuelNG;
-    salaire.annuelAvantIR = p.salaireNetMensuelNG * 12;
-    salaire.netMensuelIR = p.salaireNetMensuelNG * netIRSal;
+    // Le salaire saisi est déjà net d'impôt : aucun taux ne lui est appliqué.
+    salaire.netMensuelIR = p.salaireNetMensuelNG;
     salaire.annuelNetIR = salaire.netMensuelIR * 12;
 
     salaire.heuresPresenceHebdo = p.joursNGParSemaine * p.heuresPresenceParJourNG;
@@ -384,7 +380,8 @@
     jalons.netEgaleSalaire = premierMoisOu(m => m.netIRConsultant >= salaireNetMois);
     jalons.netCouvreDepenses = premierMoisOu(m => m.netIRConsultant >= p.depensesMensuelles);
     jalons.mrrNetCouvreDepenses = premierMoisOu(m => m.netIRMrr >= p.depensesMensuelles);
-    jalons.revenuDouble = premierMoisOu(m => m.revenuTotalNet >= 2 * salaireNetMois);
+    // (revenu total ≥ 2 × salaire équivaut à net consultant ≥ salaire : jalon déjà couvert)
+    jalons.mrrNetEgaleSalaire = premierMoisOu(m => m.netIRMrr >= salaireNetMois);
     jalons.mrr1k = premierMoisOu(m => m.mrr >= 1000);
     jalons.mrr5k = premierMoisOu(m => m.mrr >= 5000);
     jalons.mrr10k = premierMoisOu(m => m.mrr >= 10000);
@@ -517,7 +514,7 @@
     /* ==================================================================== */
     return {
       params: p,
-      taux: { tauxConv, retention, netIRCons, netIRSal, churnMensuel, survieMensuelle },
+      taux: { tauxConv, retention, netIRCons, churnMensuel, survieMensuelle },
       salaire, temps, unit, mois, annees, an1, an2, an3,
       jalons, plateau, synthese, sensibiliteVolume, sensibilitePrix, scenarios, cohorte,
       nouveauxParMois, nbMois,
