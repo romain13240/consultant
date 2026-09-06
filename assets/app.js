@@ -830,13 +830,40 @@
   /* ======================================================================
      EXPORTS
      ==================================================================== */
-  function telecharger(nom, contenu, type) {
-    const blob = new Blob(['﻿' + contenu], { type: type || 'text/csv;charset=utf-8' });
+  // Deux contextes d'execution : navigateur classique (fichier local, Raspberry Pi)
+  // ou le lien blob fonctionne, et visualiseur d'Artifact ou il est inerte --
+  // il faut alors passer par la capacite « downloads ».
+  let _dl;   // undefined = non resolu, null = indisponible
+  function capaciteTelechargement() {
+    if (_dl !== undefined) return Promise.resolve(_dl);
+    if (!(window.claude && typeof window.claude.use === 'function')) {
+      _dl = null;
+      return Promise.resolve(null);
+    }
+    return Promise.resolve(window.claude.use('downloads'))
+      .then(ns => (_dl = ns || null))
+      .catch(() => (_dl = null));
+  }
+
+  function telechargerNavigateur(nom, contenu, type) {
+    const blob = new Blob([contenu], { type: type || 'text/csv;charset=utf-8' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = nom;
     document.body.appendChild(a); a.click();
     setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 400);
+  }
+
+  function telecharger(nom, contenu, type) {
+    const donnees = '﻿' + contenu;   // BOM : Excel ouvre le CSV en UTF-8
+    capaciteTelechargement().then(dl => {
+      if (!dl) return telechargerNavigateur(nom, donnees, type);
+      return dl.save({ filename: nom, data: donnees }).catch(err => {
+        const code = err && err.code;
+        if (code === 'declined' || code === 'rate_limited') return;
+        telechargerNavigateur(nom, donnees, type);
+      });
+    });
   }
   const csvNb = v => String(Math.round(v * 100) / 100).replace('.', ',');
 
