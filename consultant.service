@@ -1,0 +1,12 @@
+[Unit]
+Description=Business plan Consultant agent IA
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/consultant
+ExecStart=/usr/bin/python3 -m http.server 8000 --bind 0.0.0.0
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
