@@ -85,10 +85,12 @@ main() {
 
     if [ -z "$RACINE_WEB" ]; then
       log "Recherche de la racine du serveur du port 8080"
-      PID8080="$(ss -tlnpH 'sport = :8080' 2>/dev/null | grep -oP 'pid=\K[0-9]+' | head -1 || true)"
+      # Le filtre « sport = :8080 » de ss reste muet sur certaines versions
+      # d'iproute2 alors que la socket existe : on liste et on filtre nous-mêmes.
+      PID8080="$(ss -tlnp 2>/dev/null | awk '$4 ~ /:8080$/' | grep -oP 'pid=\K[0-9]+' | head -1 || true)"
       if [ -z "$PID8080" ] && [ -n "$SUDO" ]; then
         echo "    (processus d'un autre compte — passage par sudo)"
-        PID8080="$($SUDO ss -tlnpH 'sport = :8080' 2>/dev/null | grep -oP 'pid=\K[0-9]+' | head -1 || true)"
+        PID8080="$($SUDO ss -tlnp 2>/dev/null | awk '$4 ~ /:8080$/' | grep -oP 'pid=\K[0-9]+' | head -1 || true)"
       fi
       if [ -n "$PID8080" ]; then
         CMD8080="$(tr '\0' ' ' < "/proc/$PID8080/cmdline" 2>/dev/null \
