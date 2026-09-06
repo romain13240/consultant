@@ -79,6 +79,27 @@ main() {
     fi
   fi
 
+  # ------------------------------------------- 2b. Publication Google Drive
+  # Raspberry Pi OS applique PEP 668 : pip refuse d'installer dans le système.
+  # Les dépendances Google vont donc dans un environnement virtuel dédié.
+  VENV="$HOME/.venvs/consultant"
+  if [ "${1:-}" = "--drive" ]; then
+    if [ ! -x "$VENV/bin/python" ]; then
+      log "Création de l'environnement virtuel $VENV"
+      python3 -m venv "$VENV" \
+        || die "venv indisponible : sudo apt install -y python3-venv puis relancer"
+    fi
+    log "Installation des dépendances Google (une minute au premier passage)"
+    "$VENV/bin/pip" install --quiet --upgrade pip >/dev/null 2>&1 || true
+    "$VENV/bin/pip" install --quiet google-api-python-client google-auth openpyxl \
+      || die "Échec de l'installation des dépendances Google"
+    ok "Environnement Drive prêt"
+    echo
+    log "Publication du classeur sur Google Drive"
+    "$VENV/bin/python" "$APP_DIR/sheets/push_to_drive.py" || \
+      warn "Publication Drive non aboutie — voir le message ci-dessus"
+  fi
+
   # ---------------------------------------------------------- 3. Résultat
   IP="$(hostname -I 2>/dev/null | awk '{print $1}')"
   echo
@@ -88,7 +109,11 @@ main() {
   echo
   echo "   Mise à jour     : relancer ce script"
   echo "   Journal         : journalctl --user -u $SERVICE -f"
-  echo "   Google Sheets   : python3 $APP_DIR/sheets/push_to_drive.py"
+  if [ -x "$VENV/bin/python" ]; then
+    echo "   Google Sheets   : $VENV/bin/python $APP_DIR/sheets/push_to_drive.py"
+  else
+    echo "   Google Sheets   : ./deploy-rpi.sh --drive   (installe les dépendances)"
+  fi
   return 0
 }
 

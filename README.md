@@ -73,8 +73,13 @@ Deux façons de l'obtenir sur Drive, dans le dossier **#Consultant + MRR** :
 **1. Automatique** — depuis le Pi, où le jeton OAuth Google est déjà présent :
 
 ```bash
-python3 sheets/push_to_drive.py
+cd ~/consultant && ./deploy-rpi.sh --drive
 ```
+
+Raspberry Pi OS applique PEP 668 : `pip install` refuse d'écrire dans le
+système. L'option `--drive` crée donc un environnement virtuel dans
+`~/.venvs/consultant`, y installe les dépendances Google, puis publie. Elle est
+idempotente — au deuxième passage, seule la publication est rejouée.
 
 Le script crée (ou met à jour) le Google Sheet natif `Consultant agent IA v2`,
 pousse les 11 onglets **avec leurs formules vivantes**, applique les formats

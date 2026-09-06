@@ -28,8 +28,18 @@ try:
     from google.oauth2.credentials import Credentials
     from googleapiclient.discovery import build
 except ImportError:  # pragma: no cover
-    sys.exit("Manque google-api-python-client / google-auth : "
-             "pip install google-api-python-client google-auth")
+    sys.exit(u"""Dépendances Google absentes.
+
+Sur Raspberry Pi OS récent, pip refuse d'installer dans le système
+(PEP 668 / externally-managed-environment). Il faut un environnement virtuel :
+
+  sudo apt install -y python3-venv
+  python3 -m venv ~/.venvs/consultant
+  ~/.venvs/consultant/bin/pip install -q google-api-python-client google-auth openpyxl
+  ~/.venvs/consultant/bin/python ~/consultant/sheets/push_to_drive.py
+
+Ou, en une seule commande depuis ~/consultant :  ./deploy-rpi.sh --drive
+""")
 
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
@@ -37,8 +47,22 @@ from openpyxl.utils import get_column_letter
 # --------------------------------------------------------------------------- #
 ICI = os.path.dirname(os.path.abspath(__file__))
 CLASSEUR = os.environ.get("CLASSEUR", os.path.join(ICI, "consultant-agent-ia-v2.xlsx"))
-JETON = os.environ.get("GOOGLE_TOKEN", os.path.join(os.path.expanduser("~"),
-                                                    ".hermes", "google_token.json"))
+# Le jeton n'est pas au même endroit selon la machine et l'utilisateur : on
+# essaie les emplacements connus plutôt que d'en coder un seul en dur.
+CANDIDATS_JETON = [
+    os.environ.get("GOOGLE_TOKEN"),
+    os.path.join(os.path.expanduser("~"), ".hermes", "google_token.json"),
+    os.path.join(os.path.expanduser("~"), ".config", "consultant", "google_token.json"),
+    os.path.join(os.path.expanduser("~"), ".google_token.json"),
+    "/home/hermes/.hermes/google_token.json",
+]
+
+
+def trouver_jeton():
+    for c in CANDIDATS_JETON:
+        if c and os.path.exists(c):
+            return c
+    return None
 DOSSIER = os.environ.get("DRIVE_FOLDER", u"#Consultant + MRR")
 TITRE = os.environ.get("SHEET_TITLE", u"Consultant agent IA v2")
 
@@ -50,10 +74,20 @@ BLANC = {"red": 1.0, "green": 1.0, "blue": 1.0}
 
 # --------------------------------------------------------------------------- #
 def services():
-    if not os.path.exists(JETON):
-        sys.exit(u"Jeton OAuth introuvable : %s\n"
-                 u"Définissez GOOGLE_TOKEN vers un fichier de jeton valide." % JETON)
-    tk = json.load(open(JETON))
+    jeton = trouver_jeton()
+    if not jeton:
+        print(u"Jeton OAuth Google introuvable. Emplacements essayés :")
+        for c in CANDIDATS_JETON:
+            if c:
+                print(u"  - %s" % c)
+        print(u"")
+        print(u"Localisez-le :")
+        print(u"  sudo find /home -name 'google_token.json' 2>/dev/null")
+        print(u"puis relancez en indiquant le chemin trouvé :")
+        print(u"  GOOGLE_TOKEN=/chemin/vers/google_token.json python3 sheets/push_to_drive.py")
+        sys.exit(1)
+    print(u"Jeton : %s" % jeton)
+    tk = json.load(open(jeton))
     creds = Credentials(
         token=tk.get("token") or tk.get("access_token"),
         refresh_token=tk["refresh_token"],
