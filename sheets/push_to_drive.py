@@ -58,9 +58,29 @@ CANDIDATS_JETON = [
 ]
 
 
+def etat_jeton(chemin):
+    """'ok', 'absent' ou 'interdit'.
+
+    Un fichier situé dans le home d'un autre utilisateur est indétectable :
+    sans droit de traversée sur le dossier parent, os.path.exists() répond
+    False exactement comme s'il n'existait pas. On tente donc l'ouverture
+    pour distinguer les deux cas — c'est la seule façon de le savoir.
+    """
+    try:
+        with open(chemin, "rb"):
+            return "ok"
+    except IOError as e:
+        import errno
+        if e.errno in (errno.EACCES, errno.EPERM):
+            return "interdit"
+        return "absent"
+    except OSError:
+        return "absent"
+
+
 def trouver_jeton():
     for c in CANDIDATS_JETON:
-        if c and os.path.exists(c):
+        if c and etat_jeton(c) == "ok":
             return c
     return None
 DOSSIER = os.environ.get("DRIVE_FOLDER", u"#Consultant + MRR")
@@ -76,15 +96,33 @@ BLANC = {"red": 1.0, "green": 1.0, "blue": 1.0}
 def services():
     jeton = trouver_jeton()
     if not jeton:
-        print(u"Jeton OAuth Google introuvable. Emplacements essayés :")
+        interdits = []
+        print(u"Jeton OAuth Google inutilisable. Emplacements essayés :")
         for c in CANDIDATS_JETON:
-            if c:
-                print(u"  - %s" % c)
+            if not c:
+                continue
+            etat = etat_jeton(c)
+            if etat == "interdit":
+                interdits.append(c)
+                print(u"  - %s   → existe, mais droits insuffisants" % c)
+            else:
+                print(u"  - %s   → absent" % c)
         print(u"")
-        print(u"Localisez-le :")
-        print(u"  sudo find /home -name 'google_token.json' 2>/dev/null")
-        print(u"puis relancez en indiquant le chemin trouvé :")
-        print(u"  GOOGLE_TOKEN=/chemin/vers/google_token.json python3 sheets/push_to_drive.py")
+        if interdits:
+            print(u"Le jeton appartient à un autre utilisateur. Copiez-le dans votre")
+            print(u"compte, en le gardant lisible par vous seul :")
+            print(u"")
+            print(u"  mkdir -p ~/.config/consultant")
+            print(u"  sudo cp %s ~/.config/consultant/google_token.json" % interdits[0])
+            print(u"  sudo chown $(id -un):$(id -gn) ~/.config/consultant/google_token.json")
+            print(u"  chmod 600 ~/.config/consultant/google_token.json")
+            print(u"")
+            print(u"Ce chemin fait partie de ceux testés : relancez ensuite sans rien préciser.")
+        else:
+            print(u"Localisez-le :")
+            print(u"  sudo find /home -name 'google_token.json' 2>/dev/null")
+            print(u"puis relancez en indiquant le chemin trouvé :")
+            print(u"  GOOGLE_TOKEN=/chemin/vers/google_token.json python3 sheets/push_to_drive.py")
         sys.exit(1)
     print(u"Jeton : %s" % jeton)
     tk = json.load(open(jeton))
