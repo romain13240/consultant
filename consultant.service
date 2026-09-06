@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=simple
 WorkingDirectory=%h/consultant
-ExecStart=/usr/bin/python3 -m http.server 8000 --bind 0.0.0.0
+ExecStart=/usr/bin/python3 -m http.server 8001 --bind 0.0.0.0
 Restart=on-failure
 
 [Install]

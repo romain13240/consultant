@@ -16,10 +16,10 @@ Depuis le Raspberry Pi :
 ```bash
 git clone https://github.com/ROMAIN13240/consultant.git
 cd consultant
-python3 -m http.server 8000 --bind 0.0.0.0
+python3 -m http.server 8001 --bind 0.0.0.0
 ```
 
-Puis ouvrir `http://IP_DU_RASPBERRY_PI:8000/`.
+Puis ouvrir `http://IP_DU_RASPBERRY_PI:8001/`.
 
 Pour un service systemd utilisateur, adapter le chemin dans `consultant.service`, puis :
 
