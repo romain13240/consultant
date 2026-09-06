@@ -109,7 +109,7 @@ options :
 
 | Option | Effet |
 |---|---|
-| `--link` | rattache le site au serveur statique du port 8080, sous `/consultant`, par lien symbolique (racine auto-détectée) |
+| `--link` | rattache le site au serveur statique du port 8080, sous `/consultant/marcus`, par lien symbolique (racine auto-détectée) |
 | `--drive` | crée `~/.venvs/consultant`, installe les dépendances Google et publie le classeur sur Drive |
 | `--no-service` | n'installe pas le service systemd du port 8001 |
 | `--port N` | change le port du service systemd |

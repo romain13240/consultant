@@ -94,10 +94,11 @@ main() {
       warn "Racine détectée inutilisable : « $RACINE_WEB » — lien non créé."
     elif [ ! -w "$RACINE_WEB" ]; then
       warn "Pas les droits d'écriture sur $RACINE_WEB — lien non créé."
-      warn "À faire manuellement :  sudo ln -sfn $APP_DIR $RACINE_WEB/consultant"
+      warn "À faire manuellement :  sudo mkdir -p $RACINE_WEB/consultant && sudo ln -sfn $APP_DIR $RACINE_WEB/consultant/marcus"
     else
-      ln -sfn "$APP_DIR" "$RACINE_WEB/consultant"
-      ok "Lien créé : $RACINE_WEB/consultant -> $APP_DIR"
+      mkdir -p "$RACINE_WEB/consultant"
+      ln -sfn "$APP_DIR" "$RACINE_WEB/consultant/marcus"
+      ok "Lien créé : $RACINE_WEB/consultant/marcus -> $APP_DIR"
       LIEN_OK=1
     fi
   fi
@@ -160,7 +161,7 @@ main() {
   IP="$(hostname -I 2>/dev/null | awk '{print $1}')"
   echo
   ok "Déploiement terminé — $APP_DIR"
-  [ "${LIEN_OK:-0}" = "1" ] && echo "   Via 8080 : http://${IP:-localhost}:8080/consultant/"
+  [ "${LIEN_OK:-0}" = "1" ] && echo "   Via 8080 : http://${IP:-localhost}:8080/consultant/marcus/"
   [ "$FAIRE_SERVICE" = "1" ] && echo "   Service  : http://${IP:-localhost}:$PORT"
   echo
   echo "   Mise à jour   : relancer ce script avec les mêmes options"
