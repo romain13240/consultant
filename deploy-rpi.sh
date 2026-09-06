@@ -110,27 +110,29 @@ main() {
 
     BASE_WEB="${RACINE_WEB:-}/consultant"
     CIBLE="$BASE_WEB/marcus"
+    PUBLIC_DIR="$APP_DIR/web/consultant/marcus"
     if [ -z "$RACINE_WEB" ]; then
       warn "Racine du serveur 8080 non déterminée."
       warn "Relancez en la précisant :  ./deploy-rpi.sh --root /chemin/vers/la/racine"
     elif [ ! -d "$RACINE_WEB" ] || [ "$RACINE_WEB" = "/" ]; then
       warn "Racine inutilisable : « $RACINE_WEB » — lien non créé."
-    elif [ "$(readlink -f "$APP_DIR")" = "$(readlink -f "$CIBLE" 2>/dev/null || echo /introuvable)" ]; then
+    elif [ "$(readlink -f "$PUBLIC_DIR")" = "$(readlink -f "$CIBLE" 2>/dev/null || echo /introuvable)" ]; then
       # Le dépôt est déjà à l'emplacement servi : un lien pointerait sur lui-même.
       ok "Le dépôt est déjà à l'emplacement servi : $CIBLE"
       LIEN_OK=1
     else
+      [ -f "$PUBLIC_DIR/index.html" ] || die "Fichier web manquant : $PUBLIC_DIR/index.html"
       mkdir -p "$BASE_WEB" 2>/dev/null || $SUDO mkdir -p "$BASE_WEB" || true
-      if ln -sfn "$APP_DIR" "$CIBLE" 2>/dev/null; then
-        ok "Lien créé : $CIBLE -> $APP_DIR"
+      if ln -sfn "$PUBLIC_DIR" "$CIBLE" 2>/dev/null; then
+        ok "Lien créé : $CIBLE -> $PUBLIC_DIR"
         LIEN_OK=1
-      elif [ -n "$SUDO" ] && $SUDO ln -sfn "$APP_DIR" "$CIBLE"; then
-        ok "Lien créé (sudo) : $CIBLE -> $APP_DIR"
+      elif [ -n "$SUDO" ] && $SUDO ln -sfn "$PUBLIC_DIR" "$CIBLE"; then
+        ok "Lien créé (sudo) : $CIBLE -> $PUBLIC_DIR"
         LIEN_OK=1
       else
         warn "Impossible de créer $CIBLE — droits insuffisants."
         warn "À faire manuellement :"
-        warn "  sudo mkdir -p $BASE_WEB && sudo ln -sfn $APP_DIR $CIBLE"
+        warn "  sudo mkdir -p $BASE_WEB && sudo ln -sfn $PUBLIC_DIR $CIBLE"
       fi
     fi
 
@@ -138,8 +140,8 @@ main() {
     # et ne peut pas traverser le dépôt, il répond 404 — indiscernable d'un
     # chemin absent.
     if [ "${LIEN_OK:-0}" = "1" ]; then
-      chmod o+rx "$APP_DIR" "$APP_DIR/assets" 2>/dev/null || true
-      chmod o+r "$APP_DIR/index.html" 2>/dev/null || true
+      chmod o+rx "$APP_DIR" "$APP_DIR/web" "$APP_DIR/web/consultant" "$PUBLIC_DIR" 2>/dev/null || true
+      chmod o+r "$PUBLIC_DIR/index.html" "$PUBLIC_DIR/index marcus.html" 2>/dev/null || true
       chmod o+rx "$BASE_WEB" 2>/dev/null || $SUDO chmod o+rx "$BASE_WEB" 2>/dev/null || true
     fi
   fi
