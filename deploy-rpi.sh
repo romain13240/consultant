@@ -8,7 +8,7 @@
 #
 #  Options (cumulables, aucune n'est obligatoire) :
 #     --link         rattache le site au serveur statique du port 8080, sous
-#                    /consultant, par lien symbolique (racine auto-détectée)
+#                    /consultant/marcus, par lien symbolique (racine auto-détectée)
 #     --drive        crée un venv, installe les dépendances Google et publie
 #                    le classeur sur Drive
 #     --no-service   n'installe pas le service systemd du port 8001
@@ -77,29 +77,68 @@ main() {
 
   # ------------------------------- 2. Rattachement au serveur statique 8080
   if [ "$FAIRE_LIEN" = "1" ]; then
+    # Le serveur du 8080 peut tourner sous un autre compte : ni « ss -p » ni
+    # /proc/<pid>/ ne sont alors lisibles, et l'auto-détection échouait en
+    # silence. On repasse par sudo dans ce cas.
+    SUDO=""
+    [ "$(id -u)" -ne 0 ] && command -v sudo >/dev/null 2>&1 && SUDO="sudo"
+
     if [ -z "$RACINE_WEB" ]; then
       log "Recherche de la racine du serveur du port 8080"
       PID8080="$(ss -tlnpH 'sport = :8080' 2>/dev/null | grep -oP 'pid=\K[0-9]+' | head -1 || true)"
-      if [ -n "$PID8080" ] && [ -r "/proc/$PID8080/cmdline" ]; then
-        CMD8080="$(tr '\0' ' ' < "/proc/$PID8080/cmdline")"
+      if [ -z "$PID8080" ] && [ -n "$SUDO" ]; then
+        echo "    (processus d'un autre compte — passage par sudo)"
+        PID8080="$($SUDO ss -tlnpH 'sport = :8080' 2>/dev/null | grep -oP 'pid=\K[0-9]+' | head -1 || true)"
+      fi
+      if [ -n "$PID8080" ]; then
+        CMD8080="$(tr '\0' ' ' < "/proc/$PID8080/cmdline" 2>/dev/null \
+                   || $SUDO tr '\0' ' ' < "/proc/$PID8080/cmdline" 2>/dev/null || true)"
         RACINE_WEB="$(printf '%s' "$CMD8080" | grep -oP '(?<=--directory )\S+' || true)"
-        [ -z "$RACINE_WEB" ] && RACINE_WEB="$(readlink -f "/proc/$PID8080/cwd" 2>/dev/null || true)"
-        echo "    commande : $CMD8080"
+        if [ -z "$RACINE_WEB" ]; then
+          RACINE_WEB="$(readlink -f "/proc/$PID8080/cwd" 2>/dev/null \
+                        || $SUDO readlink -f "/proc/$PID8080/cwd" 2>/dev/null || true)"
+        fi
+        echo "    pid      : $PID8080"
+        echo "    commande : ${CMD8080:-inconnue}"
+        echo "    racine   : ${RACINE_WEB:-non déterminée}"
+      else
+        warn "Aucun processus en écoute sur le port 8080."
       fi
     fi
+
+    BASE_WEB="${RACINE_WEB:-}/consultant"
+    CIBLE="$BASE_WEB/marcus"
     if [ -z "$RACINE_WEB" ]; then
-      warn "Racine du serveur 8080 non détectée (processus d'un autre utilisateur ?)."
+      warn "Racine du serveur 8080 non déterminée."
       warn "Relancez en la précisant :  ./deploy-rpi.sh --root /chemin/vers/la/racine"
     elif [ ! -d "$RACINE_WEB" ] || [ "$RACINE_WEB" = "/" ]; then
-      warn "Racine détectée inutilisable : « $RACINE_WEB » — lien non créé."
-    elif [ ! -w "$RACINE_WEB" ]; then
-      warn "Pas les droits d'écriture sur $RACINE_WEB — lien non créé."
-      warn "À faire manuellement :  sudo mkdir -p $RACINE_WEB/consultant && sudo ln -sfn $APP_DIR $RACINE_WEB/consultant/marcus"
-    else
-      mkdir -p "$RACINE_WEB/consultant"
-      ln -sfn "$APP_DIR" "$RACINE_WEB/consultant/marcus"
-      ok "Lien créé : $RACINE_WEB/consultant/marcus -> $APP_DIR"
+      warn "Racine inutilisable : « $RACINE_WEB » — lien non créé."
+    elif [ "$(readlink -f "$APP_DIR")" = "$(readlink -f "$CIBLE" 2>/dev/null || echo /introuvable)" ]; then
+      # Le dépôt est déjà à l'emplacement servi : un lien pointerait sur lui-même.
+      ok "Le dépôt est déjà à l'emplacement servi : $CIBLE"
       LIEN_OK=1
+    else
+      mkdir -p "$BASE_WEB" 2>/dev/null || $SUDO mkdir -p "$BASE_WEB" || true
+      if ln -sfn "$APP_DIR" "$CIBLE" 2>/dev/null; then
+        ok "Lien créé : $CIBLE -> $APP_DIR"
+        LIEN_OK=1
+      elif [ -n "$SUDO" ] && $SUDO ln -sfn "$APP_DIR" "$CIBLE"; then
+        ok "Lien créé (sudo) : $CIBLE -> $APP_DIR"
+        LIEN_OK=1
+      else
+        warn "Impossible de créer $CIBLE — droits insuffisants."
+        warn "À faire manuellement :"
+        warn "  sudo mkdir -p $BASE_WEB && sudo ln -sfn $APP_DIR $CIBLE"
+      fi
+    fi
+
+    # Un lien correct ne suffit pas : si le serveur tourne sous un autre compte
+    # et ne peut pas traverser le dépôt, il répond 404 — indiscernable d'un
+    # chemin absent.
+    if [ "${LIEN_OK:-0}" = "1" ]; then
+      chmod o+rx "$APP_DIR" "$APP_DIR/assets" 2>/dev/null || true
+      chmod o+r "$APP_DIR/index.html" 2>/dev/null || true
+      chmod o+rx "$BASE_WEB" 2>/dev/null || $SUDO chmod o+rx "$BASE_WEB" 2>/dev/null || true
     fi
   fi
 
