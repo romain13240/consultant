@@ -100,22 +100,30 @@ python sheets/build_gsheet.py
 
 ## Déploiement Raspberry Pi
 
-Le Pi sert déjà le site depuis `~/consultant` sur le **port 8001**, via le
-service utilisateur systemd `consultant` (`consultant.service`).
-`deploy-rpi.sh` met ce déploiement à jour — il ne crée pas un second site.
-
 ```bash
-curl -fsSL https://raw.githubusercontent.com/romain13240/consultant/main/deploy-rpi.sh | bash
+curl -fsSL https://raw.githubusercontent.com/romain13240/consultant/main/deploy-rpi.sh | bash -s -- --link --drive
 ```
 
-Ou, si le dépôt est déjà cloné sur le Pi :
+Le script clone ou met à jour le dépôt dans `~/consultant`, puis, selon les
+options :
 
-```bash
-cd ~/consultant && git pull && ./deploy-rpi.sh
-```
+| Option | Effet |
+|---|---|
+| `--link` | rattache le site au serveur statique du port 8080, sous `/consultant`, par lien symbolique (racine auto-détectée) |
+| `--drive` | crée `~/.venvs/consultant`, installe les dépendances Google et publie le classeur sur Drive |
+| `--no-service` | n'installe pas le service systemd du port 8001 |
+| `--port N` | change le port du service systemd |
+| `--root DIR` | racine du serveur statique, si l'auto-détection échoue |
 
-Le script met à jour les sources, réinstalle l'unité systemd utilisateur et
-redémarre le service. Page servie sur `http://<ip-du-pi>:8001`.
+Sans option, il installe simplement le service utilisateur systemd
+`consultant` sur le port 8001. Si ce port est déjà occupé par un autre
+processus — par exemple le même service lancé sous un autre compte — le
+script le signale et poursuit au lieu d'échouer.
+
+**Compte à utiliser.** Le jeton OAuth Google appartient à l'utilisateur
+`hermes` : la publication Drive doit donc être lancée depuis cette session.
+Un autre compte peut servir la page, mais pas publier sur Drive sans copie
+préalable du jeton.
 
 Journal du service :
 

@@ -2,26 +2,27 @@
 # ============================================================================
 #  deploy-rpi.sh — Déploiement de l'étude « Consultant agent IA » sur Raspberry Pi
 #  ---------------------------------------------------------------------------
-#  Met à jour le déploiement existant : ~/consultant, servi sur le port 8001
-#  par le service utilisateur systemd « consultant » (cf. consultant.service).
+#  Usage :
+#     ./deploy-rpi.sh [options]
+#     curl -fsSL https://raw.githubusercontent.com/romain13240/consultant/main/deploy-rpi.sh | bash -s -- [options]
 #
-#  Usage sur le Pi :
-#     curl -fsSL https://raw.githubusercontent.com/romain13240/consultant/main/deploy-rpi.sh | bash
-#  ou, si le dépôt est déjà cloné :
-#     cd ~/consultant && ./deploy-rpi.sh
+#  Options (cumulables, aucune n'est obligatoire) :
+#     --link         rattache le site au serveur statique du port 8080, sous
+#                    /consultant, par lien symbolique (racine auto-détectée)
+#     --drive        crée un venv, installe les dépendances Google et publie
+#                    le classeur sur Drive
+#     --no-service   n'installe pas le service systemd du port 8001
+#     --port N       port du service systemd            (défaut 8001)
+#     --root DIR     racine du serveur statique, si l'auto-détection échoue
 #
-#  Variables surchargeables :
-#     REPO_URL   dépôt git source
-#     APP_DIR    répertoire d'installation   (défaut ~/consultant)
-#     PORT       port d'écoute               (défaut 8001)
+#  Variables surchargeables : REPO_URL, APP_DIR, PORT
 #
 #  NOTE D'IMPLÉMENTATION — tout le corps est enfermé dans main().
 #  Le script fait « git reset --hard » sur le répertoire d'où il s'exécute,
 #  donc sur son propre fichier. Bash lit un script par morceaux au fil de
-#  l'exécution : si le fichier change en cours de route, la suite est lue
-#  au mauvais décalage et part en vrille. Enfermer le corps dans une
-#  fonction force bash à parser jusqu'à l'accolade fermante avant de rien
-#  exécuter ; la dernière ligne appelle et sort d'un seul tenant.
+#  l'exécution : si le fichier change en cours de route, la suite est lue au
+#  mauvais décalage. Enfermer le corps dans une fonction force bash à parser
+#  jusqu'à l'accolade fermante avant de rien exécuter.
 # ============================================================================
 set -euo pipefail
 
@@ -31,6 +32,25 @@ main() {
   PORT="${PORT:-8001}"
   SERVICE="consultant"
   UNIT_DIR="$HOME/.config/systemd/user"
+  VENV="$HOME/.venvs/consultant"
+
+  FAIRE_LIEN=0
+  FAIRE_DRIVE=0
+  FAIRE_SERVICE=1
+  RACINE_WEB=""
+
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --link)       FAIRE_LIEN=1 ;;
+      --drive)      FAIRE_DRIVE=1 ;;
+      --no-service) FAIRE_SERVICE=0 ;;
+      --port)       PORT="$2"; shift ;;
+      --root)       RACINE_WEB="$2"; FAIRE_LIEN=1; shift ;;
+      -h|--help)    sed -n '2,20p' "$0" 2>/dev/null || true; return 0 ;;
+      *)            echo "Option inconnue : $1" >&2; return 2 ;;
+    esac
+    shift
+  done
 
   log()  { printf '\033[1;34m▸\033[0m %s\n' "$*"; }
   ok()   { printf '\033[1;32m✓\033[0m %s\n' "$*"; }
@@ -52,38 +72,74 @@ main() {
   fi
   [ -f "$APP_DIR/index.html" ] || die "index.html introuvable dans $APP_DIR"
   [ -f "$APP_DIR/assets/app.js" ] || die "assets/ manquant — dépôt incomplet"
+  chmod +x "$APP_DIR/deploy-rpi.sh" 2>/dev/null || true
   ok "Sources à jour ($(git -C "$APP_DIR" rev-parse --short HEAD))"
 
-  # Le bit exécutable peut manquer si le fichier a été commité depuis Windows.
-  chmod +x "$APP_DIR/deploy-rpi.sh" 2>/dev/null || true
-
-  # --------------------------------------------- 2. Service utilisateur
-  log "Installation du service utilisateur « $SERVICE » (port $PORT)"
-  mkdir -p "$UNIT_DIR"
-  [ -f "$APP_DIR/consultant.service" ] || die "consultant.service introuvable"
-  sed -e "s|8001|$PORT|g" "$APP_DIR/consultant.service" > "$UNIT_DIR/$SERVICE.service"
-
-  systemctl --user daemon-reload
-  systemctl --user enable "$SERVICE" >/dev/null 2>&1 || true
-  systemctl --user restart "$SERVICE"
-  sleep 1
-  systemctl --user is-active --quiet "$SERVICE" \
-    || die "Le service n'a pas démarré : systemctl --user status $SERVICE"
-  ok "Service actif"
-
-  # Survivre à la déconnexion de la session
-  if command -v loginctl >/dev/null 2>&1; then
-    if ! loginctl show-user "$(id -un)" -p Linger 2>/dev/null | grep -q "Linger=yes"; then
-      warn "Le service s'arrêtera à la déconnexion. Pour le rendre permanent :"
-      echo "      sudo loginctl enable-linger $(id -un)"
+  # ------------------------------- 2. Rattachement au serveur statique 8080
+  if [ "$FAIRE_LIEN" = "1" ]; then
+    if [ -z "$RACINE_WEB" ]; then
+      log "Recherche de la racine du serveur du port 8080"
+      PID8080="$(ss -tlnpH 'sport = :8080' 2>/dev/null | grep -oP 'pid=\K[0-9]+' | head -1 || true)"
+      if [ -n "$PID8080" ] && [ -r "/proc/$PID8080/cmdline" ]; then
+        CMD8080="$(tr '\0' ' ' < "/proc/$PID8080/cmdline")"
+        RACINE_WEB="$(printf '%s' "$CMD8080" | grep -oP '(?<=--directory )\S+' || true)"
+        [ -z "$RACINE_WEB" ] && RACINE_WEB="$(readlink -f "/proc/$PID8080/cwd" 2>/dev/null || true)"
+        echo "    commande : $CMD8080"
+      fi
+    fi
+    if [ -z "$RACINE_WEB" ]; then
+      warn "Racine du serveur 8080 non détectée (processus d'un autre utilisateur ?)."
+      warn "Relancez en la précisant :  ./deploy-rpi.sh --root /chemin/vers/la/racine"
+    elif [ ! -d "$RACINE_WEB" ] || [ "$RACINE_WEB" = "/" ]; then
+      warn "Racine détectée inutilisable : « $RACINE_WEB » — lien non créé."
+    elif [ ! -w "$RACINE_WEB" ]; then
+      warn "Pas les droits d'écriture sur $RACINE_WEB — lien non créé."
+      warn "À faire manuellement :  sudo ln -sfn $APP_DIR $RACINE_WEB/consultant"
+    else
+      ln -sfn "$APP_DIR" "$RACINE_WEB/consultant"
+      ok "Lien créé : $RACINE_WEB/consultant -> $APP_DIR"
+      LIEN_OK=1
     fi
   fi
 
-  # ------------------------------------------- 2b. Publication Google Drive
+  # --------------------------------------------- 3. Service utilisateur 8001
+  if [ "$FAIRE_SERVICE" = "1" ]; then
+    # Le port peut déjà être servi par le même service lancé sous un AUTRE
+    # compte utilisateur : dans ce cas systemd échouerait sur « Address already
+    # in use », sans que ce soit une erreur de déploiement.
+    OCCUPE=0
+    if ss -tlnH "sport = :$PORT" 2>/dev/null | grep -q .; then
+      systemctl --user is-active --quiet "$SERVICE" 2>/dev/null || OCCUPE=1
+    fi
+    if [ "$OCCUPE" = "1" ]; then
+      warn "Port $PORT déjà occupé par un autre processus — service non installé."
+      warn "Le site reste accessible par le lien ci-dessus, ou utilisez --port N."
+      FAIRE_SERVICE=0
+    else
+      log "Installation du service utilisateur « $SERVICE » (port $PORT)"
+      mkdir -p "$UNIT_DIR"
+      [ -f "$APP_DIR/consultant.service" ] || die "consultant.service introuvable"
+      sed -e "s|8001|$PORT|g" -e "s|%h/consultant|$APP_DIR|g" \
+          "$APP_DIR/consultant.service" > "$UNIT_DIR/$SERVICE.service"
+      systemctl --user daemon-reload
+      systemctl --user enable "$SERVICE" >/dev/null 2>&1 || true
+      systemctl --user restart "$SERVICE"
+      sleep 1
+      systemctl --user is-active --quiet "$SERVICE" \
+        || die "Le service n'a pas démarré : systemctl --user status $SERVICE"
+      ok "Service actif"
+      if command -v loginctl >/dev/null 2>&1; then
+        if ! loginctl show-user "$(id -un)" -p Linger 2>/dev/null | grep -q "Linger=yes"; then
+          warn "Le service s'arrêtera à la déconnexion. Pour le rendre permanent :"
+          echo "      sudo loginctl enable-linger $(id -un)"
+        fi
+      fi
+    fi
+  fi
+
+  # ------------------------------------------- 4. Publication Google Drive
   # Raspberry Pi OS applique PEP 668 : pip refuse d'installer dans le système.
-  # Les dépendances Google vont donc dans un environnement virtuel dédié.
-  VENV="$HOME/.venvs/consultant"
-  if [ "${1:-}" = "--drive" ]; then
+  if [ "$FAIRE_DRIVE" = "1" ]; then
     if [ ! -x "$VENV/bin/python" ]; then
       log "Création de l'environnement virtuel $VENV"
       python3 -m venv "$VENV" \
@@ -96,23 +152,23 @@ main() {
     ok "Environnement Drive prêt"
     echo
     log "Publication du classeur sur Google Drive"
-    "$VENV/bin/python" "$APP_DIR/sheets/push_to_drive.py" || \
-      warn "Publication Drive non aboutie — voir le message ci-dessus"
+    "$VENV/bin/python" "$APP_DIR/sheets/push_to_drive.py" \
+      || warn "Publication Drive non aboutie — voir le message ci-dessus"
   fi
 
-  # ---------------------------------------------------------- 3. Résultat
+  # ---------------------------------------------------------- 5. Résultat
   IP="$(hostname -I 2>/dev/null | awk '{print $1}')"
   echo
-  ok "Déploiement terminé"
-  echo "   Local  : http://localhost:$PORT"
-  [ -n "${IP:-}" ] && echo "   Réseau : http://$IP:$PORT"
+  ok "Déploiement terminé — $APP_DIR"
+  [ "${LIEN_OK:-0}" = "1" ] && echo "   Via 8080 : http://${IP:-localhost}:8080/consultant/"
+  [ "$FAIRE_SERVICE" = "1" ] && echo "   Service  : http://${IP:-localhost}:$PORT"
   echo
-  echo "   Mise à jour     : relancer ce script"
-  echo "   Journal         : journalctl --user -u $SERVICE -f"
+  echo "   Mise à jour   : relancer ce script avec les mêmes options"
+  [ "$FAIRE_SERVICE" = "1" ] && echo "   Journal       : journalctl --user -u $SERVICE -f"
   if [ -x "$VENV/bin/python" ]; then
-    echo "   Google Sheets   : $VENV/bin/python $APP_DIR/sheets/push_to_drive.py"
+    echo "   Google Sheets : $VENV/bin/python $APP_DIR/sheets/push_to_drive.py"
   else
-    echo "   Google Sheets   : ./deploy-rpi.sh --drive   (installe les dépendances)"
+    echo "   Google Sheets : ./deploy-rpi.sh --drive"
   fi
   return 0
 }
