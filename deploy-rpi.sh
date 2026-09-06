@@ -145,18 +145,18 @@ main() {
       chmod o+rx "$BASE_WEB" 2>/dev/null || $SUDO chmod o+rx "$BASE_WEB" 2>/dev/null || true
     fi
 
-    # Publie aussi la version Claude comme fichier indépendant à la racine,
+    # Publie aussi la page Consultant comme fichier indépendant à la racine,
     # à côté de « index suivi patrimoine.html », sans remplacer celui-ci.
-    CLAUDE_FILE="$APP_DIR/web/index claude.html"
-    ROOT_CLAUDE="$RACINE_WEB/index claude.html"
-    if [ -f "$CLAUDE_FILE" ]; then
-      if ln -sfn "$CLAUDE_FILE" "$ROOT_CLAUDE" 2>/dev/null; then
-        ok "Fichier racine publié : $ROOT_CLAUDE"
-      elif [ -n "$SUDO" ] && $SUDO ln -sfn "$CLAUDE_FILE" "$ROOT_CLAUDE"; then
-        ok "Fichier racine publié (sudo) : $ROOT_CLAUDE"
+    CONSULTANT_FILE="$APP_DIR/web/consultant.html"
+    ROOT_CONSULTANT="$RACINE_WEB/consultant.html"
+    if [ -f "$CONSULTANT_FILE" ]; then
+      if ln -sfn "$CONSULTANT_FILE" "$ROOT_CONSULTANT" 2>/dev/null; then
+        ok "Fichier racine publié : $ROOT_CONSULTANT"
+      elif [ -n "$SUDO" ] && $SUDO ln -sfn "$CONSULTANT_FILE" "$ROOT_CONSULTANT"; then
+        ok "Fichier racine publié (sudo) : $ROOT_CONSULTANT"
       else
-        warn "Impossible de publier $ROOT_CLAUDE — droits insuffisants."
-        warn "À faire manuellement : sudo ln -sfn '$CLAUDE_FILE' '$ROOT_CLAUDE'"
+        warn "Impossible de publier $ROOT_CONSULTANT — droits insuffisants."
+        warn "À faire manuellement : sudo ln -sfn '$CONSULTANT_FILE' '$ROOT_CONSULTANT'"
       fi
     fi
   fi
