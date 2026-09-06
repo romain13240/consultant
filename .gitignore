@@ -1,4 +1,14 @@
+# Python
 __pycache__/
-*.pyc
-.env
-*.token
+*.py[cod]
+.venv/
+venv/
+
+# Système
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Fichiers temporaires de génération
+sheets/_*.txt
+sheets/_*.xlsx

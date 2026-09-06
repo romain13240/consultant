@@ -1,42 +1,904 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Consultant agent IA — Business plan v2</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
-<style>
-:root{--bg:#f5f5f7;--card:#fff;--ink:#171719;--muted:#6e6e73;--line:#dedee3;--blue:#0071e3;--green:#16834b;--orange:#b85c00;--shadow:0 12px 40px #0000000d;--radius:22px}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif;line-height:1.48}body:before{content:"";display:block;height:5px;background:linear-gradient(90deg,#0071e3,#74b9ff,#36c275)}a{color:var(--blue);text-decoration:none}button,input{font:inherit}.topbar{position:sticky;top:0;z-index:10;background:#ffffffd9;backdrop-filter:blur(18px);border-bottom:1px solid #dddde366;height:64px;display:flex;align-items:center;gap:16px;padding:0 clamp(16px,4vw,48px)}.menu-btn{width:44px;height:44px;border:0;border-radius:14px;background:#ececf0;cursor:pointer;font-size:21px}.brand{font-weight:700;letter-spacing:-.02em}.top-actions{margin-left:auto;display:flex;gap:8px}.btn{border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 14px;cursor:pointer;font-weight:600}.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}.drawer{position:fixed;z-index:20;inset:0 auto 0 0;width:min(350px,92vw);background:#fff;box-shadow:18px 0 50px #0002;transform:translateX(-105%);transition:transform .35s cubic-bezier(.2,.8,.2,1);padding:90px 22px 24px;overflow:auto}.drawer.open{transform:none}.scrim{position:fixed;z-index:19;inset:0;background:#0005;opacity:0;pointer-events:none;transition:.25s}.scrim.open{opacity:1;pointer-events:auto}.drawer h3{margin:0 0 12px}.nav{display:grid;gap:6px;margin-bottom:24px}.nav a{padding:11px 12px;border-radius:10px;color:var(--ink)}.nav a:hover{background:#f1f1f4}.settings{border-top:1px solid var(--line);padding-top:18px}.settings label{display:block;font-size:12px;color:var(--muted);margin:12px 0 5px}.settings input{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:#fafafa}.settings .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}.container{max-width:1440px;margin:auto;padding:34px clamp(16px,4vw,52px) 80px}.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:end;padding:35px 0 28px}.eyebrow{text-transform:uppercase;letter-spacing:.13em;color:var(--blue);font-weight:700;font-size:12px}.hero h1{font-size:clamp(38px,6vw,78px);line-height:.98;letter-spacing:-.07em;margin:10px 0 18px}.hero p{font-size:19px;color:var(--muted);max-width:740px}.hero-card{background:var(--ink);color:#fff;border-radius:28px;padding:26px;box-shadow:var(--shadow)}.hero-card .big{font-size:46px;font-weight:700;letter-spacing:-.06em}.hero-card small{color:#b8b8be}.section{margin-top:54px;scroll-margin-top:84px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:18px}.section h2{font-size:32px;letter-spacing:-.04em;margin:0}.section h3{font-size:20px;margin:0 0 8px}.muted{color:var(--muted)}.toc{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px;box-shadow:var(--shadow)}.toc ol{columns:2;margin:12px 0 0;padding-left:22px}.toc li{margin:7px 0}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.kpi,.card{background:var(--card);border:1px solid #e7e7eb;border-radius:var(--radius);box-shadow:var(--shadow)}.kpi{padding:20px}.kpi .label{color:var(--muted);font-size:13px}.kpi .value{font-weight:700;font-size:29px;letter-spacing:-.04em;margin-top:5px}.kpi .delta{color:var(--green);font-size:12px;margin-top:6px}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}.card{padding:22px}.chart-wrap{height:330px;position:relative}.table-wrap{overflow:auto;max-height:650px;border:1px solid var(--line);border-radius:16px}table{border-collapse:collapse;width:100%;font-size:13px;background:#fff}th,td{padding:10px 12px;text-align:right;border-bottom:1px solid #eeeeF2;white-space:nowrap}th:first-child,td:first-child{text-align:left;position:sticky;left:0;background:#fff;z-index:1}thead th{background:#f5f5f7;font-weight:700;color:#555;position:sticky;top:0;z-index:2}.param-table{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.param-item{padding:13px 14px;background:#fafafa;border-radius:14px}.param-item .name{font-size:12px;color:var(--muted)}.param-item .val{font-weight:700;margin-top:3px}.formula{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#f3f3f5;border-radius:10px;padding:12px;font-size:12px;overflow:auto}.note{padding:14px 16px;border-left:3px solid var(--blue);background:#f0f7ff;border-radius:0 12px 12px 0;color:#354052}.footer{margin-top:70px;border-top:1px solid var(--line);padding-top:22px;color:var(--muted);font-size:13px}@media(max-width:900px){.hero,.grid2{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.param-table{grid-template-columns:repeat(2,1fr)}.top-actions .btn:not(.primary){display:none}}@media(max-width:520px){.container{padding-top:18px}.hero h1{font-size:44px}.kpis,.param-table{grid-template-columns:1fr}.toc ol{columns:1}.section h2{font-size:27px}.chart-wrap{height:260px}}
-</style></head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="Étude financière détaillée : activité de consultant en déploiement d'agents IA, avec diagnostic gratuit, prestation de déploiement et abonnement mensuel récurrent (MRR). Projection 2027-2030.">
+<title>Consultant agent IA — Étude MRR 2027-2030</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📈</text></svg>">
+</head>
 <body>
-<div class="scrim" id="scrim"></div><aside class="drawer" id="drawer"><h3>Navigation</h3><nav class="nav"><a href="#synthese">Vue d’ensemble</a><a href="#parametres">Paramètres</a><a href="#modele">Méthode & hypothèses</a><a href="#mrr">MRR mensuel</a><a href="#ca">CA & revenu net IR</a><a href="#temps">Temps de travail</a><a href="#annuel">Synthèse annuelle</a><a href="#sensibilite">Sensibilité</a></nav><div class="settings"><h3>Réglages rapides</h3><p class="muted" style="font-size:13px">Les valeurs sont sauvegardées dans ce navigateur et recalculées instantanément.</p><div id="drawerSettings"></div></div></aside>
-<header class="topbar"><button class="menu-btn" id="menuBtn" aria-label="Ouvrir le menu">☰</button><div class="brand">Consultant agent IA <span class="muted">/ Business plan v2</span></div><div class="top-actions"><button class="btn" id="resetBtn">Réinitialiser</button><button class="btn primary" id="csvBtn">Exporter CSV</button></div></header>
-<main class="container"><section class="hero" id="synthese"><div><div class="eyebrow">Étude financière interactive · 01/2027 → 01/2030</div><h1>Transformer une expertise en revenu récurrent.</h1><p>Modèle économique du consultant en déploiement d’agents IA : diagnostic gratuit, déploiement facturé, période d’essai d’une semaine, puis abonnement mensuel récurrent.</p></div><div class="hero-card"><small>MRR à 01/2030</small><div class="big" id="heroMrr">—</div><div id="heroSub">— clients actifs · scénario central</div></div></section>
-<section class="toc"><strong>Sommaire</strong><ol><li><a href="#synthese">Vue d’ensemble</a></li><li><a href="#parametres">Données d’entrée & paramètres</a></li><li><a href="#modele">Méthode, hypothèses & offre</a></li><li><a href="#mrr">MRR mensuel 01/27–01/30</a></li><li><a href="#ca">CA, net IR & salaire</a></li><li><a href="#temps">Charge de travail & disponibilité</a></li><li><a href="#annuel">Synthèse annuelle</a></li><li><a href="#sensibilite">Sensibilité du modèle</a></li></ol></section>
-<section class="section"><div class="kpis"><div class="kpi"><div class="label">CA cumulé consultant + MRR</div><div class="value" id="kpiCa">—</div><div class="delta">01/27 → 01/30</div></div><div class="kpi"><div class="label">Net IR cumulé consultant</div><div class="value" id="kpiNet">—</div><div class="delta">ratio net paramétrable</div></div><div class="kpi"><div class="label">Clients actifs fin de période</div><div class="value" id="kpiClients">—</div><div class="delta">après rétention mensuelle</div></div><div class="kpi"><div class="label">Revenu total net IR fin de période</div><div class="value" id="kpiTotal">—</div><div class="delta">salaire net + consultant</div></div></div></section>
-<section class="section" id="parametres"><div class="section-head"><div><div class="eyebrow">01 · Données d’entrée</div><h2>Paramètres du scénario</h2></div><span class="muted">Modifiables dans le menu ☰</span></div><div class="card"><div class="param-table" id="paramGrid"></div></div></section>
-<section class="section" id="modele"><div class="section-head"><div><div class="eyebrow">02 · Lecture du modèle</div><h2>Une mécanique simple, mesurable, récurrente.</h2></div></div><div class="grid2"><div class="card"><h3>Parcours commercial</h3><p><b>1. Diagnostic gratuit</b> — comprendre le processus, le volume et le ROI potentiel.</p><p><b>2. Déploiement</b> — mise en œuvre de l’agent IA, par exemple OCR des devis puis stockage structuré : prix HT, TVA, poste facturé, total TTC et métadonnées.</p><p><b>3. Test d’une semaine</b> — le client vérifie la qualité réelle sur ses documents.</p><p><b>4. Conversion</b> — si OK, abonnement mensuel ; si NOK, arrêt sans revenu récurrent supplémentaire.</p></div><div class="card"><h3>Formules utilisées</h3><div class="formula">Diagnostics mensuels = diagnostics / semaine × 52 / 12<br>Déploiements = diagnostics × taux de conversion<br>Clients actifs = clients actifs M−1 × rétention mensuelle + nouveaux clients<br>MRR = clients actifs × abonnement mensuel<br>CA mensuel = déploiements × prix de déploiement + MRR<br>Net IR consultant = CA × taux restant net IR</div><p class="muted" style="font-size:13px">La rétention mensuelle est déduite de la rétention annuelle : rétention annuelle<sup>1/12</sup>. Les valeurs ne sont pas arrondies dans les calculs, uniquement dans l’affichage.</p></div></div><div class="note" style="margin-top:18px"><b>Point d’attention :</b> le modèle est un scénario de capacité, pas une garantie commerciale. Les dépenses API, logiciels, prospection, TVA, frais bancaires et éventuels frais de structure sont regroupés dans le paramètre « dépenses mensuelles » ou dans le taux net IR restant.</div></section>
-<section class="section" id="mrr"><div class="section-head"><div><div class="eyebrow">03 · Revenu récurrent</div><h2>MRR mensuel — 01/2027 à 01/2030</h2></div></div><div class="grid2"><div class="card"><h3>Trajectoire du MRR</h3><div class="chart-wrap"><canvas id="mrrChart"></canvas></div></div><div class="card"><h3>Clients actifs & nouveaux clients</h3><div class="chart-wrap"><canvas id="clientsChart"></canvas></div></div></div><div class="card" style="margin-top:18px"><div class="table-wrap"><table id="mrrTable"></table></div></div></section>
-<section class="section" id="ca"><div class="section-head"><div><div class="eyebrow">04 · Chiffre d’affaires & revenu disponible</div><h2>Du CA brut au revenu net IR</h2></div></div><div class="grid2"><div class="card"><h3>CA mensuel consultant + MRR</h3><div class="chart-wrap"><canvas id="caChart"></canvas></div></div><div class="card"><h3>Net IR mensuel : consultant + salaire</h3><div class="chart-wrap"><canvas id="netChart"></canvas></div></div></div><div class="card" style="margin-top:18px"><div class="table-wrap"><table id="caTable"></table></div></div></section>
-<section class="section" id="temps"><div class="section-head"><div><div class="eyebrow">05 · Temps & capacité</div><h2>Le temps disponible est le vrai plafond.</h2></div></div><div class="grid2"><div class="card"><h3>Charge business consultant IA</h3><div class="chart-wrap"><canvas id="timeChart"></canvas></div></div><div class="card"><h3>Indicateurs de capacité</h3><div id="timeMetrics"></div></div></div></section>
-<section class="section" id="annuel"><div class="section-head"><div><div class="eyebrow">06 · Consolidation</div><h2>Vue annuelle et objectif de liquidité</h2></div></div><div class="card"><div class="table-wrap"><table id="annualTable"></table></div></div></section>
-<section class="section" id="sensibilite"><div class="section-head"><div><div class="eyebrow">07 · Sensibilité</div><h2>Ce qui fait bouger le résultat.</h2></div></div><div class="grid2"><div class="card"><h3>Leviers prioritaires</h3><p><b>Rétention :</b> chaque point de rétention améliore la durée de vie moyenne des clients et le MRR futur.</p><p><b>Conversion :</b> le diagnostic est gratuit, mais sa capacité doit produire un déploiement payé.</p><p><b>Prix d’abonnement :</b> il rémunère la valeur maintenue après le déploiement ; à calibrer avec le ROI client.</p><p><b>Capacité :</b> le nombre de diagnostics gratuits et de jours marketing limite les ventes si tu restes seul.</p></div><div class="card"><h3>Scénarios de MRR à 01/2030</h3><div class="chart-wrap"><canvas id="scenarioChart"></canvas></div></div></div></section>
-<footer class="footer">Consultant agent IA · Business plan v2 · Modèle local, paramétrable et sauvegardé dans le navigateur. Les données sont indicatives et doivent être validées avec un expert-comptable pour les obligations fiscales et sociales.</footer>
-</main>
-<script>
-const defaults={subscription:185,deployment:997,workDays:208,diagnosticsWeek:1,conversion:.50,deploymentDays:2,diagnosticHours:1,marketingDaysWeek:1,retentionAnnual:.85,dayHours:7,salaryMonthly:3400,salaryNetRate:.90,netRate:.50,expensesMonthly:0,navalPresenceDaysWeek:4,navalHoursDay:7,cerebralHoursWeek:35,start:'2027-01',end:'2030-01'};
-const labels={subscription:['Prix abonnement mensuel','€ / client / mois','money'],deployment:['Prix prestation déploiement','€ / déploiement','money'],workDays:['Nombre de jours travaillés / an','jours','num'],diagnosticsWeek:['Diagnostics gratuits / semaine','diagnostics','num'],conversion:['Conversion diagnostic → OK','%','percent'],deploymentDays:['Jours par déploiement','jours','num'],diagnosticHours:['Heures par diagnostic','heures','num'],marketingDaysWeek:['Jours marketing / semaine','jours','num'],retentionAnnual:['Rétention annuelle abonnement','%','percent'],dayHours:['Heures de travail / jour','heures','num'],salaryMonthly:['Salaire brut mensuel Naval Group','€ / mois','money'],salaryNetRate:['Taux net IR salaire','%','percent'],netRate:['Part du CA restant net IR','%','percent'],expensesMonthly:['Dépenses mensuelles','€ / mois','money'],navalPresenceDaysWeek:['Jours Naval Group / semaine','jours','num'],navalHoursDay:['Heures réelles / jour Naval Group','heures','num'],cerebralHoursWeek:['Heures de travail cérébral / semaine','heures','num']};
-let p=JSON.parse(localStorage.getItem('consultant-agent-ia-v2')||'null')||{...defaults}; localStorage.setItem('consultant-agent-ia-v2',JSON.stringify(p)); let charts={}; const euro=n=>new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(n); const num=n=>new Intl.NumberFormat('fr-FR',{maximumFractionDigits:1}).format(n); const pct=n=>new Intl.NumberFormat('fr-FR',{style:'percent',maximumFractionDigits:1}).format(n);
-function inputValue(k,v){return labels[k][2]==='percent'?v*100:v} function outputValue(k,v){return labels[k][2]==='percent'?v/100:v}
-function renderSettings(){let html=''; Object.keys(labels).forEach(k=>{let [name,unit,type]=labels[k]; html+=`<label for="set-${k}">${name} <span class="muted">(${unit})</span></label><input id="set-${k}" type="number" step="${type==='percent'?'.1':'any'}" value="${inputValue(k,p[k])}" data-key="${k}">`}); document.getElementById('drawerSettings').innerHTML=html; document.querySelectorAll('#drawerSettings input').forEach(el=>el.addEventListener('input',()=>{p[el.dataset.key]=outputValue(el.dataset.key,Number(el.value)); localStorage.setItem('consultant-agent-ia-v2',JSON.stringify(p)); render();}));}
-function months(){let a=[],d=new Date(2027,0,1),end=new Date(2030,0,1);while(d<=end){a.push(`${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getFullYear()).slice(-2)}`);d.setMonth(d.getMonth()+1)}return a}
-function calc(){const ms=months(), monthlyRetention=Math.pow(p.retentionAnnual,1/12), newClients=p.diagnosticsWeek*52/12*p.conversion; let active=0; return ms.map((month,i)=>{active=active*monthlyRetention+newClients;let deployments=newClients, mrr=active*p.subscription, deployCA=deployments*p.deployment, ca=deployCA+mrr, net=ca*p.netRate, salaryNet=p.salaryMonthly*p.salaryNetRate, total=net+salaryNet-p.expensesMonthly;let diagH=p.diagnosticsWeek*52/12*p.diagnosticHours, marketingH=p.marketingDaysWeek*52/12*p.dayHours, deployH=deployments*p.deploymentDays*p.dayHours, totalH=diagH+marketingH+deployH;return {month,active,newClients,deployments,mrr,deployCA,ca,net,salaryNet,total,diagH,marketingH,deployH,totalH,eqDays:totalH/p.dayHours}})}
-function setTable(id,heads,rows){document.getElementById(id).innerHTML='<thead><tr>'+heads.map(x=>`<th>${x}</th>`).join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+r.map(x=>`<td>${x}</td>`).join('')+'</tr>').join('')+'</tbody>'}
-function chart(id,type,data,options={}){if(charts[id])charts[id].destroy();charts[id]=new Chart(document.getElementById(id),{type,data,options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},plugins:{legend:{position:'bottom',labels:{usePointStyle:true,boxWidth:8}}},scales:{x:{grid:{display:false}},y:{grid:{color:'#eeeeF2'},ticks:{callback:v=>euro(v)}}},...options}})}
-function render(){renderSettings();const d=calc(),last=d.at(-1),sum=k=>d.reduce((a,x)=>a+x[k],0); document.getElementById('heroMrr').textContent=euro(last.mrr);document.getElementById('heroSub').textContent=`${num(last.active)} clients actifs · rétention annuelle ${pct(p.retentionAnnual)}`;document.getElementById('kpiCa').textContent=euro(sum('ca'));document.getElementById('kpiNet').textContent=euro(sum('net'));document.getElementById('kpiClients').textContent=num(last.active);document.getElementById('kpiTotal').textContent=euro(last.total);document.getElementById('paramGrid').innerHTML=Object.keys(labels).map(k=>`<div class="param-item"><div class="name">${labels[k][0]}</div><div class="val">${labels[k][2]==='money'?euro(p[k]):labels[k][2]==='percent'?pct(p[k]):num(p[k])} ${labels[k][1].startsWith('%')?'':''}</div></div>`).join('');
-let heads=['Mois','Clients actifs','Nouveaux clients','Déploiements','MRR','Net IR MRR','CA déploiement','CA total','Net IR consultant'];setTable('mrrTable',heads,d.map(x=>[x.month,num(x.active),num(x.newClients),num(x.deployments),euro(x.mrr),euro(x.mrr*p.netRate),euro(x.deployCA),euro(x.ca),euro(x.net)]));setTable('caTable',['Mois','CA consultant + MRR','Net IR consultant','Salaire net IR','Revenu total net IR','Jours business équiv.'],d.map(x=>[x.month,euro(x.ca),euro(x.net),euro(x.salaryNet),euro(x.total),num(x.eqDays)]));
-const years=['2027','2028','2029','2030'];let annual=years.map(y=>{let a=d.filter(x=>x.month.endsWith(y.slice(-2)));return [y,euro(a.reduce((s,x)=>s+x.ca,0)),euro(a.reduce((s,x)=>s+x.net,0)),euro(a.reduce((s,x)=>s+x.mrr,0)/Math.max(a.length,1)),num(a.reduce((s,x)=>s+x.totalH,0)/p.dayHours),euro(a.reduce((s,x)=>s+x.total,0))]});setTable('annualTable',['Année','CA consultant + MRR','Net IR consultant','MRR moyen','Jours business équiv.','Revenu total net IR'],annual);
-const presenceWeek=p.navalPresenceDaysWeek*p.navalHoursDay, presenceYear=presenceWeek*(p.workDays/5), cerebralYear=p.cerebralHoursWeek*(p.workDays/5), siteYear=(p.workDays/5)*p.navalPresenceDaysWeek, realDay=p.navalHoursDay, availHours=p.workDays*p.dayHours;document.getElementById('timeMetrics').innerHTML=[['Heures hebdomadaires de présence Naval Group',`${num(presenceWeek)} h`],['Heures hebdomadaires de travail cérébral',`${num(p.cerebralHoursWeek)} h`],['Heures annuelles de présence Naval Group',`${num(presenceYear)} h`],['Heures annuelles de travail cérébral',`${num(cerebralYear)} h`],['Jours annuels travaillés à temps partiel',`${num(p.workDays)} jours`],['Jours sur site annuels',`${num(siteYear)} jours`],['Heures réelles / jour Naval Group',`${num(realDay)} h`],['Heures réelles annuelles Naval Group',`${num(realDay*siteYear)} h`],['Heures disponibles de travail à 208 j/an',`${num(availHours)} h`],['Heures annuelles à consacrer à l’agent IA',`${num(sum('totalH')/3.083)} h`],['€ facturés par jour consultant (déploiement)',euro(p.deployment/p.deploymentDays)],['€ par heure net IR consultant',euro((sum('net'))/(sum('totalH')||1))]].map(x=>`<div class="param-item" style="margin:8px 0"><div class="name">${x[0]}</div><div class="val">${x[1]}</div></div>`).join('');
-const monthsL=d.map(x=>x.month);chart('mrrChart','line',{labels:monthsL,datasets:[{label:'MRR brut',data:d.map(x=>x.mrr),borderColor:'#0071e3',backgroundColor:'#0071e322',fill:true,tension:.35},{label:'Net IR MRR',data:d.map(x=>x.mrr*p.netRate),borderColor:'#16834b',tension:.35}]});chart('clientsChart','bar',{labels:monthsL,datasets:[{label:'Clients actifs',data:d.map(x=>x.active),backgroundColor:'#b9dcff'},{label:'Nouveaux clients',data:d.map(x=>x.newClients),backgroundColor:'#74b9ff'}]},{scales:{y:{ticks:{callback:v=>num(v)}}}});chart('caChart','bar',{labels:monthsL,datasets:[{label:'Déploiements',data:d.map(x=>x.deployCA),backgroundColor:'#b8c9ff'},{label:'MRR',data:d.map(x=>x.mrr),backgroundColor:'#0071e3'}]});chart('netChart','line',{labels:monthsL,datasets:[{label:'Net IR consultant',data:d.map(x=>x.net),borderColor:'#16834b',tension:.35},{label:'Revenu total net IR',data:d.map(x=>x.total),borderColor:'#171719',tension:.35}]});chart('timeChart','bar',{labels:monthsL,datasets:[{label:'Diagnostic (h)',data:d.map(x=>x.diagH),backgroundColor:'#b8c9ff'},{label:'Marketing (h)',data:d.map(x=>x.marketingH),backgroundColor:'#74b9ff'},{label:'Déploiement (h)',data:d.map(x=>x.deployH),backgroundColor:'#0071e3'}]},{scales:{y:{stacked:true,ticks:{callback:v=>num(v)+' h'}},x:{stacked:true,grid:{display:false}}}});let scenarios=['Prudent','Central','Dynamique'], vals=[.35,.50,.70].map(c=>{let q={...p,conversion:c};let old=p;p=q;let z=calc().at(-1).mrr;p=old;return z});chart('scenarioChart','bar',{labels:scenarios,datasets:[{label:'MRR à 01/2030',data:vals,backgroundColor:['#c5c5ca','#0071e3','#36c275']}]});}
 
-document.getElementById('menuBtn').onclick=()=>{drawer.classList.add('open');scrim.classList.add('open')};document.getElementById('scrim').onclick=()=>{drawer.classList.remove('open');scrim.classList.remove('open')};document.getElementById('resetBtn').onclick=()=>{p={...defaults};localStorage.setItem('consultant-agent-ia-v2',JSON.stringify(p));render()};document.getElementById('csvBtn').onclick=()=>{let d=calc(),csv=['Mois;Clients actifs;Nouveaux clients;Déploiements;MRR;CA total;Net IR consultant;Revenu total net IR;Jours business équiv.'].concat(d.map(x=>[x.month,x.active,x.newClients,x.deployments,x.mrr,x.ca,x.net,x.total,x.eqDays].join(';'))).join('\n');let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='consultant-agent-ia-v2.csv';a.click()};render();
-</script></body></html>
+<div id="progress"></div>
+
+<!-- ══════════════════════════════════════════════ NAVIGATION ══════════════ -->
+<nav class="nav">
+  <button class="nav__burger" id="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="drawer">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav__title">Consultant agent IA <small>— étude MRR</small></div>
+  <div class="nav__spacer"></div>
+  <div class="nav__actions">
+    <span class="nav__chip hide-sm">MRR <span data-v="navMoisFin"></span> · <b data-v="navMrrFin"></b></span>
+    <span class="nav__chip">Net/mois <b data-v="navNetFin"></b></span>
+  </div>
+</nav>
+
+<div class="scrim" id="scrim"></div>
+
+<!-- ═════════════════════════════════════════════ MENU LATÉRAL ═════════════ -->
+<aside class="drawer" id="drawer" aria-label="Navigation de l'étude">
+  <div class="drawer__head">
+    <h3>Sommaire</h3>
+    <p>Étude de rentabilité · <span data-v="horizonTexte"></span></p>
+  </div>
+  <div class="drawer__body">
+    <div class="drawer__group">Le projet</div>
+    <a class="dl" href="#modele"><em>🧩</em> Modèle économique</a>
+    <a class="dl" href="#parametres"><em>⚙️</em> Paramètres de l'étude</a>
+    <div class="drawer__group">Fondations</div>
+    <a class="dl" href="#capacite"><em>⏱️</em> Temps &amp; capacité</a>
+    <a class="dl" href="#unit"><em>💠</em> Unit economics</a>
+    <div class="drawer__group">Projection</div>
+    <a class="dl" href="#mrr"><em>📈</em> Tableau MRR mensuel</a>
+    <a class="dl" href="#revenus"><em>💶</em> CA &amp; revenus mensuels</a>
+    <a class="dl" href="#annuel"><em>🗓️</em> Synthèse annuelle</a>
+    <div class="drawer__group">Année par année</div>
+    <a class="dl" href="#an1"><em>1️⃣</em> Année 1 en détail</a>
+    <a class="dl" href="#an2"><em>2️⃣</em> Année 2 en détail</a>
+    <a class="dl" href="#an3"><em>3️⃣</em> Année 3 &amp; régime permanent</a>
+    <div class="drawer__group">Décision</div>
+    <a class="dl" href="#comparatif"><em>⚖️</em> Comparatif €/heure</a>
+    <a class="dl" href="#jalons"><em>🚩</em> Jalons &amp; seuils</a>
+    <a class="dl" href="#sensibilite"><em>🔬</em> Sensibilité</a>
+    <a class="dl" href="#scenarios"><em>🎲</em> Scénarios</a>
+    <a class="dl" href="#risques"><em>🛡️</em> Risques &amp; leviers</a>
+    <a class="dl" href="#annexe"><em>📐</em> Annexe : formules</a>
+  </div>
+  <div class="drawer__foot">
+    <button class="btn btn--sm" id="drawerParams">⚙️ Paramètres</button>
+    <button class="btn btn--sm btn--ghost" id="drawerExport">↓ Exporter JSON</button>
+  </div>
+</aside>
+
+<!-- ══════════════════════════════════════════════════ HERO ═══════════════ -->
+<header class="hero">
+  <div class="wrap">
+    <div class="hero__eyebrow rv">● Business plan · <span data-v="horizonTexte"></span></div>
+    <h1 class="rv rv-d1">Consultant <span class="grad">déploiement d'agents IA</span>, adossé à un revenu récurrent.</h1>
+    <p class="hero__lead rv rv-d2">
+      Un diagnostic gratuit, une semaine d'essai, puis un agent en production —
+      facturé une fois <b data-v="prixDeploiement"></b> et entretenu
+      <b data-v="prixAbo"></b> par mois. Si l'essai n'est pas concluant : au revoir, chiffre d'affaires 0 €.
+      Cette étude chiffre exactement ce que ce modèle produit, mois par mois, à côté d'un salaire de
+      <b data-v="salaireNetMensuel"></b> net.
+    </p>
+    <div class="hero__stats rv rv-d3">
+      <div class="hero__stat"><b data-v="heroMrrFin"></b><span>MRR à <span data-v="navMoisFin"></span></span></div>
+      <div class="hero__stat"><b data-v="heroClientsFin"></b><span>clients actifs</span></div>
+      <div class="hero__stat"><b data-v="heroCaCumule"></b><span>CA cumulé sur l'horizon</span></div>
+      <div class="hero__stat"><b data-v="heroJoursHebdo"></b><span>j équivalents / semaine</span></div>
+      <div class="hero__stat"><b data-v="heroNetHeure"></b><span>net IR par heure travaillée</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- ═════════════════════════════════════════════════ SOMMAIRE ════════════ -->
+<section id="sommaire" class="alt">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">SOMMAIRE</span>
+      <h2>Les 16 sections de l'étude</h2>
+      <p>Chaque section combine des indicateurs chiffrés, des tableaux détaillés et des graphiques. Tous les résultats se recalculent instantanément quand vous modifiez un paramètre.</p>
+    </div>
+    <div class="toc rv rv-d1">
+      <a href="#modele"><i>🧩</i><div><u>01</u><b>Modèle économique</b><span>L'offre, l'entonnoir commercial, les deux sources de revenu</span></div></a>
+      <a href="#parametres"><i>⚙️</i><div><u>02</u><b>Paramètres de l'étude</b><span><span data-v="nbParams"></span> variables réglables, sauvegardées automatiquement</span></div></a>
+      <a href="#capacite"><i>⏱️</i><div><u>03</u><b>Temps &amp; capacité</b><span>Salariat, marge cognitive, charge réelle du business</span></div></a>
+      <a href="#unit"><i>💠</i><div><u>04</u><b>Unit economics</b><span>Ce que vaut un client : €/h, LTV, rétention</span></div></a>
+      <a href="#mrr"><i>📈</i><div><u>05</u><b>Tableau MRR mensuel</b><span>Mois par mois sur l'horizon complet</span></div></a>
+      <a href="#revenus"><i>💶</i><div><u>06</u><b>CA &amp; revenus mensuels</b><span>Consultant + MRR + salaire, net d'impôt</span></div></a>
+      <a href="#annuel"><i>🗓️</i><div><u>07</u><b>Synthèse annuelle</b><span>Agrégats par exercice et cascade CA → net</span></div></a>
+      <a href="#an1"><i>1️⃣</i><div><u>08</u><b>Année 1 en détail</b><span>Amorçage : le CA vient surtout du déploiement</span></div></a>
+      <a href="#an2"><i>2️⃣</i><div><u>09</u><b>Année 2 en détail</b><span>Bascule : le MRR prend le dessus</span></div></a>
+      <a href="#an3"><i>3️⃣</i><div><u>10</u><b>Année 3 &amp; régime permanent</b><span>Plateau théorique et point d'équilibre</span></div></a>
+      <a href="#comparatif"><i>⚖️</i><div><u>11</u><b>Comparatif €/heure</b><span>Salariat vs consultant vs MRR</span></div></a>
+      <a href="#jalons"><i>🚩</i><div><u>12</u><b>Jalons &amp; seuils</b><span>Quand chaque cap est franchi</span></div></a>
+      <a href="#sensibilite"><i>🔬</i><div><u>13</u><b>Analyse de sensibilité</b><span>Deux matrices : volume et prix</span></div></a>
+      <a href="#scenarios"><i>🎲</i><div><u>14</u><b>Scénarios</b><span>Du pessimiste à l'agressif</span></div></a>
+      <a href="#risques"><i>🛡️</i><div><u>15</u><b>Risques &amp; leviers</b><span>Ce qui casse le modèle, ce qui l'accélère</span></div></a>
+      <a href="#annexe"><i>📐</i><div><u>16</u><b>Annexe : formules</b><span>Toutes les équations du moteur de calcul</span></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ 01 · MODÈLE ════════════════ -->
+<section id="modele">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">01 · MODÈLE</span>
+      <h2>Une offre à risque nul pour le client, à revenu récurrent pour vous</h2>
+      <p>Le modèle repose sur un entonnoir court et une promesse asymétrique : le client ne paie que si l'agent fonctionne. Ce qui coûte cher, c'est le temps de diagnostic non converti — c'est donc le taux de conversion qui pilote toute la rentabilité.</p>
+    </div>
+
+    <div class="grid g2 rv rv-d1">
+      <div class="card card--pad">
+        <h3 class="sub" style="margin-top:0">Le parcours client</h3>
+        <ol class="steps">
+          <li><b>Diagnostic gratuit</b><span>Audit d'un process manuel à automatiser (<span data-v="heuresDiag"></span> par diagnostic, <span data-v="diagSem"></span> par semaine). Coût commercial sec.</span></li>
+          <li><b>Déploiement de l'agent</b><span>Exemple : OCR de devis → extraction (prix HT, TVA, poste facturé, total TTC) → base de données. <span data-v="joursDeploiement"></span> de travail.</span></li>
+          <li><b>Semaine de test</b><span>Le client utilise l'agent en conditions réelles. Décision binaire à la fin.</span></li>
+          <li><b>NOK → 0 €</b><span>Aucune facturation, la relation s'arrête. C'est le coût du modèle : <span data-v="pctNonConverti"></span> des diagnostics n'aboutissent pas.</span></li>
+          <li><b>OK → abonnement mensuel</b><span><span data-v="prixDeploiement"></span> de prestation puis <span data-v="prixAbo"></span> par mois, tant que l'agent tourne.</span></li>
+        </ol>
+      </div>
+      <div class="grid" style="align-content:start">
+        <div class="card card--pad">
+          <h3 class="sub" style="margin-top:0">Les deux moteurs de revenu</h3>
+          <p style="color:var(--muted);font-size:14.5px">Le déploiement est un revenu <b>linéaire</b> : il s'arrête dès que vous arrêtez de vendre. L'abonnement est un revenu <b>cumulatif</b> : chaque client signé s'ajoute au précédent, sous réserve de rétention.</p>
+          <div class="chart-host" id="ch-moteurs"></div>
+        </div>
+        <div class="note note--ok rv">
+          <h4>Le point de bascule</h4>
+          <p>Le MRR dépasse le CA de déploiement dès <b data-v="jalonMrrDepasse"></b>. À partir de là, votre revenu ne dépend plus uniquement de votre capacité à vendre chaque semaine.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid g4 rv rv-d2" style="margin-top:22px">
+      <div class="kpi" style="--accent:var(--blue)">
+        <div class="kpi__label">Diagnostics gratuits réalisés par an</div>
+        <div class="kpi__value" data-v="diagnosticsAn"></div>
+        <div class="kpi__note"><span data-v="diagSem"></span> · <b data-v="semainesAn"></b> semaines travaillées</div>
+      </div>
+      <div class="kpi" style="--accent:var(--indigo)">
+        <div class="kpi__label">Automatisations vendues par an</div>
+        <div class="kpi__value" data-v="clientsAn"></div>
+        <div class="kpi__note">soit <b data-v="autoSemaine"></b> par semaine</div>
+      </div>
+      <div class="kpi" style="--accent:var(--teal)">
+        <div class="kpi__label">CA de déploiement annuel récurrent</div>
+        <div class="kpi__value" data-v="caDepAn"></div>
+        <div class="kpi__note">indépendant du stock de clients</div>
+      </div>
+      <div class="kpi" style="--accent:var(--orange)">
+        <div class="kpi__label">MRR ajouté chaque mois (brut, avant churn)</div>
+        <div class="kpi__value" data-v="mrrAjouteMois"></div>
+        <div class="kpi__note"><b data-v="nouveauxMois"></b> nouveaux clients/mois</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ 02 · PARAMÈTRES ═══════════════ -->
+<section id="parametres" class="alt">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">02 · PARAMÈTRES</span>
+      <h2>Les <span data-v="nbParams"></span> variables qui pilotent l'étude</h2>
+      <p>Modifiez n'importe quelle valeur : tous les tableaux, indicateurs et graphiques de la page se recalculent immédiatement. Vos réglages sont enregistrés dans le navigateur et rechargés à la prochaine visite.</p>
+    </div>
+
+    <div class="panel is-open rv rv-d1" id="paramPanel">
+      <div class="panel__head" id="paramHead" role="button" tabindex="0" aria-expanded="true">
+        <div style="flex:1">
+          <h3>⚙️ Réglages du modèle</h3>
+          <p><span id="paramCount">23</span> paramètres · <span id="paramModified">aucune modification</span></p>
+        </div>
+        <span class="badge badge--info" id="paramSaved">Sauvegardé</span>
+        <div class="panel__chev">▼</div>
+      </div>
+      <div class="panel__body"><div class="panel__inner">
+        <div class="panel__pad" id="paramForm"><!-- généré --></div>
+        <div class="param-bar">
+          <div class="param-bar__status" id="paramStatus"></div>
+          <button class="btn btn--sm btn--ghost" id="btnExport">↓ Exporter</button>
+          <button class="btn btn--sm btn--ghost" id="btnImport">↑ Importer</button>
+          <button class="btn btn--sm btn--danger" id="btnReset">↺ Valeurs par défaut</button>
+          <input type="file" id="fileImport" accept="application/json" hidden>
+        </div>
+      </div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ 03 · CAPACITÉ ═════════════════ -->
+<section id="capacite">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">03 · TEMPS &amp; CAPACITÉ</span>
+      <h2>Où trouver les heures — et combien il en faut vraiment</h2>
+      <p>Avant de parler d'euros, il faut vérifier que le modèle tient physiquement. Cette section confronte la charge générée par l'activité de consultant à la capacité réellement disponible à côté du salariat.</p>
+    </div>
+
+    <h3 class="sub rv">Le socle salarié</h3>
+    <div class="grid g4 rv rv-d1">
+      <div class="kpi" style="--accent:var(--muted)"><div class="kpi__label">Heures hebdomadaires de temps de présence</div><div class="kpi__value" data-v="ngPresenceHebdo"></div><div class="kpi__note"><b data-v="ngJoursSem"></b> × <span data-v="ngHeuresJour"></span>/jour</div></div>
+      <div class="kpi" style="--accent:var(--muted)"><div class="kpi__label">Heures hebdomadaires de travail cérébral</div><div class="kpi__value" data-v="ngCerebralHebdo"></div><div class="kpi__note">soit <b data-v="ngIntensite"></b> du temps de présence</div></div>
+      <div class="kpi" style="--accent:var(--muted)"><div class="kpi__label">Heures annuelles de présence</div><div class="kpi__value" data-v="ngPresenceAn"></div><div class="kpi__note">sur <b data-v="ngSemaines"></b> semaines travaillées</div></div>
+      <div class="kpi" style="--accent:var(--muted)"><div class="kpi__label">Heures annuelles de travail cérébral</div><div class="kpi__value" data-v="ngCerebralAn"></div><div class="kpi__note"><b data-v="ngMargeCognitive"></b> de marge cognitive disponible</div></div>
+      <div class="kpi" style="--accent:var(--muted-2)"><div class="kpi__label">Jours annuels travaillés à temps partiel</div><div class="kpi__value" data-v="ngJoursAn"></div><div class="kpi__note"><b data-v="ngJoursSem"></b> par semaine</div></div>
+      <div class="kpi" style="--accent:var(--muted-2)"><div class="kpi__label">Jours sur site par an (hors télétravail)</div><div class="kpi__value" data-v="ngJoursSite"></div><div class="kpi__note"><b data-v="ngTeletravail"></b> de télétravail par semaine</div></div>
+      <div class="kpi" style="--accent:var(--muted-2)"><div class="kpi__label">Heures de travail réel par jour de présence</div><div class="kpi__value" data-v="ngHeuresReellesJour"></div><div class="kpi__note">contre <b data-v="ngHeuresJour"></b> de présence</div></div>
+      <div class="kpi" style="--accent:var(--green)"><div class="kpi__label">Salaire annuel net d'impôt sur le revenu</div><div class="kpi__value" data-v="ngAnnuelNetIR"></div><div class="kpi__note"><b data-v="salaireNetMensuel"></b>/mois × <span data-v="tauxNetIRSalaire"></span></div></div>
+    </div>
+
+    <div class="grid g2 rv rv-d2" style="margin-top:18px">
+      <div class="card chart-card">
+        <h4>Présence contre production réelle, sur l'année</h4>
+        <p class="cap">L'écart entre les deux barres est la ressource que l'activité de consultant vient mobiliser — sans ajouter d'heures à la journée.</p>
+        <div class="chart-host" id="ch-ng"></div>
+      </div>
+      <div class="card chart-card">
+        <h4>Taux de charge du business consultant</h4>
+        <p class="cap">Charge horaire générée par le modèle rapportée à la capacité déclarée (<span data-v="heuresDispoJour"></span>/jour sur <span data-v="joursAn"></span>).</p>
+        <div class="chart-host" id="ch-charge"></div>
+        <div class="note" id="chargeNote" style="margin-top:8px"></div>
+      </div>
+    </div>
+
+    <h3 class="sub rv">La capacité consultant</h3>
+    <div class="grid g4 rv rv-d1">
+      <div class="kpi" style="--accent:var(--blue)"><div class="kpi__label">Jours travaillés par an (base 5 j/semaine)</div><div class="kpi__value" data-v="joursAn"></div><div class="kpi__note"><b data-v="semainesAn"></b> semaines de 5 jours</div></div>
+      <div class="kpi" style="--accent:var(--blue)"><div class="kpi__label">Heures disponibles de travail sur l'année</div><div class="kpi__value" data-v="heuresDispoAn"></div><div class="kpi__note">base théorique <b data-v="heuresJour"></b>/jour</div></div>
+      <div class="kpi" style="--accent:var(--indigo)"><div class="kpi__label">Heures disponibles pour travail réel par jour</div><div class="kpi__value" data-v="chargeHeuresJour"></div><div class="kpi__note">capacité déclarée : <b data-v="heuresDispoJour"></b></div></div>
+      <div class="kpi" style="--accent:var(--indigo)"><div class="kpi__label">Heures annuelles consacrées à l'agent IA</div><div class="kpi__value" data-v="heuresTotalAn"></div><div class="kpi__note">dont <b data-v="heuresHorsMarketing"></b> hors marketing</div></div>
+      <div class="kpi" style="--accent:var(--teal)"><div class="kpi__label">Heures hebdomadaires sur le business</div><div class="kpi__value" data-v="heuresHebdo"></div><div class="kpi__note">réparties sur la semaine</div></div>
+      <div class="kpi kpi--accent" style="--accent:var(--orange)"><div class="kpi__label">Jours équivalents travaillés par semaine</div><div class="kpi__value" data-v="joursEqHebdo"></div><div class="kpi__note">à <b data-v="heuresJour"></b> par jour</div></div>
+      <div class="kpi" style="--accent:var(--pink)"><div class="kpi__label">Part du temps passée à prospecter, pas à implémenter</div><div class="kpi__value" data-v="pctProspection"></div><div class="kpi__note">marketing + diagnostics non convertis</div></div>
+      <div class="kpi" style="--accent:var(--purple)"><div class="kpi__label">Heures réellement travaillées hors communication marketing</div><div class="kpi__value" data-v="heuresHorsMarketing"></div><div class="kpi__note">diagnostics + déploiements</div></div>
+    </div>
+
+    <div class="grid g23 rv rv-d2" style="margin-top:18px">
+      <div class="card chart-card">
+        <h4>Répartition annuelle des <span data-v="heuresTotalAn"></span></h4>
+        <p class="cap">Trois postes seulement. Le marketing pèse autant que l'implémentation.</p>
+        <div class="chart-host" id="ch-temps"></div>
+      </div>
+      <div class="card chart-card">
+        <h4>Budget-temps total : salariat + consultant</h4>
+        <p class="cap">Le cumul hebdomadaire des deux activités, à comparer à une semaine standard de 35 à 45 h.</p>
+        <div class="chart-host" id="ch-budget"></div>
+        <div class="note note--warn" style="margin-top:10px">
+          <b>Charge combinée : <span data-v="heuresEngageesHebdo"></span> par semaine</b> (présence salariée + business).
+          Sur l'année, cela représente <b data-v="heuresEngageesAn"></b>.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════ 04 · UNIT ECONOMICS ════════════ -->
+<section id="unit" class="alt">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">04 · UNIT ECONOMICS</span>
+      <h2>Ce que rapporte un client, heure par heure</h2>
+      <p>Toute la valeur du modèle tient dans un écart : vous facturez <span data-v="caHeureConsultant"></span> l'heure d'implémentation, mais le client vous rapporte <span data-v="caHeureAn1"></span> l'heure sur douze mois grâce à l'abonnement. La différence, c'est le MRR.</p>
+    </div>
+
+    <div class="grid g4 rv rv-d1">
+      <div class="kpi" style="--accent:var(--blue)"><div class="kpi__label">Euros facturés par jour en tant que consultant</div><div class="kpi__value" data-v="caJourConsultant"></div><div class="kpi__note"><b data-v="prixDeploiement"></b> ÷ <span data-v="joursDeploiement"></span></div></div>
+      <div class="kpi" style="--accent:var(--blue)"><div class="kpi__label">Euros par heure facturée en tant que consultant</div><div class="kpi__value" data-v="caHeureConsultant"></div><div class="kpi__note">sur <b data-v="heuresParAuto"></b> d'implémentation</div></div>
+      <div class="kpi" style="--accent:var(--green)"><div class="kpi__label">Part du CA qui reste net d'impôt</div><div class="kpi__value" data-v="tauxNetIRCons"></div><div class="kpi__note">cotisations + IR + frais d'API</div></div>
+      <div class="kpi" style="--accent:var(--green)"><div class="kpi__label">Euros/heure net IR travaillés en tant que consultant IA</div><div class="kpi__value" data-v="netHeureConsultant"></div><div class="kpi__note">implémentation seule, hors MRR</div></div>
+
+      <div class="kpi" style="--accent:var(--indigo)"><div class="kpi__label">Euros par automatisation de base</div><div class="kpi__value" data-v="prixDeploiement"></div><div class="kpi__note">prestation ponctuelle</div></div>
+      <div class="kpi" style="--accent:var(--indigo)"><div class="kpi__label">Heures travaillées par automatisation de base</div><div class="kpi__value" data-v="heuresParAuto"></div><div class="kpi__note">+ <b data-v="heuresProspVente"></b> de prospection amortie</div></div>
+      <div class="kpi" style="--accent:var(--teal)"><div class="kpi__label">Euros de MRR mensuel par automatisation</div><div class="kpi__value" data-v="prixAbo"></div><div class="kpi__note">tant que l'agent est en production</div></div>
+      <div class="kpi" style="--accent:var(--teal)"><div class="kpi__label">Euros de MRR annuel par client</div><div class="kpi__value" data-v="mrrAnnuelClient"></div><div class="kpi__note">avec churn : <b data-v="mrrAn1Churn"></b></div></div>
+
+      <div class="kpi kpi--accent" style="--accent:var(--orange)"><div class="kpi__label">Euros de revenu par client la première année</div><div class="kpi__value" data-v="revenuClientAn1"></div><div class="kpi__note">déploiement + 12 mois d'abonnement</div></div>
+      <div class="kpi" style="--accent:var(--orange)"><div class="kpi__label">Euros/heure facturés au client la première année</div><div class="kpi__value" data-v="caHeureAn1"></div><div class="kpi__note">tout compris ; <b data-v="caHeureAn1HorsMkt"></b> hors marketing</div></div>
+      <div class="kpi" style="--accent:var(--green)"><div class="kpi__label">Euros/heure net IR la première année</div><div class="kpi__value" data-v="netHeureAn1"></div><div class="kpi__note">à comparer à <b data-v="ngEuroHeure"></b> au salariat</div></div>
+      <div class="kpi" style="--accent:var(--purple)"><div class="kpi__label">Taux de rétention annuel des abonnements</div><div class="kpi__value" data-v="tauxRetention"></div><div class="kpi__note">churn mensuel <b data-v="churnMensuel"></b></div></div>
+    </div>
+
+    <div class="grid g32 rv rv-d2" style="margin-top:18px">
+      <div class="card chart-card">
+        <h4>Revenu cumulé par client au fil des mois</h4>
+        <p class="cap">La prestation initiale est remboursée dès le premier jour ; l'abonnement fait le reste. La courbe s'aplatit à mesure que la probabilité de survie décroît.</p>
+        <div class="chart-host" id="ch-ltv"></div>
+      </div>
+      <div class="grid" style="align-content:start">
+        <div class="card card--pad">
+          <h4 class="sub2" style="margin-top:0">Valeur vie client</h4>
+          <dl class="kv">
+            <dt>Durée de vie moyenne d'un abonnement</dt><dd data-v="dureeVie"></dd>
+            <dt>Mois réellement payés sur 12</dt><dd data-v="moisPayes"></dd>
+            <dt>LTV brute (déploiement + abonnements)</dt><dd data-v="ltvBrute"></dd>
+            <dt>LTV nette d'impôt</dt><dd data-v="ltvNette"></dd>
+            <dt>Heures totales investies par client</dt><dd data-v="heuresParClient"></dd>
+            <dt>LTV nette par heure investie</dt><dd data-v="ltvParHeure"></dd>
+          </dl>
+        </div>
+        <div class="card chart-card">
+          <h4>Courbe de survie des abonnements</h4>
+          <p class="cap">À <span data-v="tauxRetention"></span> de rétention annuelle.</p>
+          <div class="chart-host" id="ch-survie"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ 05 · TABLEAU MRR ══════════════ -->
+<section id="mrr">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">05 · TABLEAU MRR</span>
+      <h2>Le MRR mois par mois, de <span data-v="moisDebutLong"></span> à <span data-v="moisFinLong"></span></h2>
+      <p>Chaque ligne applique la même mécanique : les clients existants subissent le churn, les nouveaux s'ajoutent, le MRR suit. Les colonnes de droite descendent jusqu'au revenu réellement disponible, salaire compris.</p>
+    </div>
+
+    <div class="grid g4 rv rv-d1" style="margin-bottom:20px">
+      <div class="kpi" style="--accent:var(--blue)"><div class="kpi__label">MRR au dernier mois projeté</div><div class="kpi__value" data-v="mrrFinal"></div><div class="kpi__note">soit <b data-v="arrFinal"></b> d'ARR</div></div>
+      <div class="kpi" style="--accent:var(--indigo)"><div class="kpi__label">Clients actifs au dernier mois</div><div class="kpi__value" data-v="clientsFinal"></div><div class="kpi__note"><b data-v="clientsSignes"></b> signés, <b data-v="clientsPerdus"></b> perdus</div></div>
+      <div class="kpi" style="--accent:var(--teal)"><div class="kpi__label">CA total cumulé sur l'horizon</div><div class="kpi__value" data-v="caCumule"></div><div class="kpi__note">déploiement + abonnements</div></div>
+      <div class="kpi" style="--accent:var(--green)"><div class="kpi__label">Net d'impôt cumulé (consultant seul)</div><div class="kpi__value" data-v="netCumule"></div><div class="kpi__note">à <span data-v="tauxNetIRCons"></span> du CA</div></div>
+    </div>
+
+    <div class="tablewrap rv rv-d2">
+      <div class="table-cap">
+        <h4>Projection mensuelle complète</h4>
+        <span><span data-v="nbMois"></span> mois · valeurs en euros, arrondies</span>
+        <button class="btn btn--sm btn--ghost" id="btnCsvMrr">↓ CSV</button>
+      </div>
+      <div class="tablescroll sticky-1" style="--tmax:640px">
+        <table id="tblMrr">
+          <thead>
+            <tr>
+              <th rowspan="2">Mois</th>
+              <th colspan="3" class="grp">Clients</th>
+              <th colspan="3" class="grp">Chiffre d'affaires</th>
+              <th colspan="3" class="grp">Net d'impôt (<span data-v="tauxNetIRCons"></span>)</th>
+              <th colspan="3" class="grp">Revenu disponible</th>
+              <th colspan="2" class="grp">Charge</th>
+            </tr>
+            <tr>
+              <th>Nouveaux</th><th>Perdus</th><th>Actifs</th>
+              <th>Déploiement</th><th>MRR</th><th>CA total</th>
+              <th>Net MRR</th><th>Net déploi.</th><th>Net consultant</th>
+              <th>Salaire net IR</th><th>Revenu total</th><th>Épargne</th>
+              <th>h/sem</th><th>j éq./sem</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+          <tfoot></tfoot>
+        </table>
+      </div>
+    </div>
+
+    <div class="grid g2 rv rv-d3" style="margin-top:18px">
+      <div class="card chart-card">
+        <h4>Croissance du MRR</h4>
+        <p class="cap">Revenu mensuel récurrent, avec les jalons franchis en cours de route.</p>
+        <div class="chart-host" id="ch-mrr"></div>
+      </div>
+      <div class="card chart-card">
+        <h4>Base clients : entrées, sorties, stock</h4>
+        <p class="cap">Le stock ralentit à mesure que le churn ronge une base plus large.</p>
+        <div class="chart-host" id="ch-clients"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════ 06 · REVENUS MENSUELS ═══════════ -->
+<section id="revenus" class="alt">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">06 · CA &amp; REVENUS</span>
+      <h2>Du chiffre d'affaires au revenu réellement disponible</h2>
+      <p>Le taux de <span data-v="tauxNetIRCons"></span> appliqué au CA consultant absorbe les cotisations, l'impôt sur le revenu et les frais d'API consommés par les agents. Le salaire, lui, est net à <span data-v="tauxNetIRSalaire"></span>.</p>
+    </div>
+
+    <div class="grid g2 rv rv-d1">
+      <div class="card chart-card">
+        <h4>Composition du chiffre d'affaires mensuel</h4>
+        <p class="cap">La part fixe (déploiement) reste constante ; c'est l'empilement du MRR qui fait la croissance.</p>
+        <div class="chart-host" id="ch-ca"></div>
+      </div>
+      <div class="card chart-card">
+        <h4>Revenu mensuel disponible, net d'impôt</h4>
+        <p class="cap">Salaire net IR + net consultant, avec le seuil de dépenses en repère.</p>
+        <div class="chart-host" id="ch-revenus"></div>
+      </div>
+    </div>
+
+    <div class="grid g2 rv rv-d2" style="margin-top:18px">
+      <div class="card chart-card">
+        <h4>Trésorerie cumulée</h4>
+        <p class="cap">Épargne accumulée après <span data-v="depensesMensuelles"></span> de dépenses mensuelles.</p>
+        <div class="chart-host" id="ch-treso"></div>
+      </div>
+      <div class="card chart-card">
+        <h4>Part du MRR dans le chiffre d'affaires</h4>
+        <p class="cap">L'indicateur de solidité : plus il monte, moins le revenu dépend de la prospection du mois.</p>
+        <div class="chart-host" id="ch-partmrr"></div>
+      </div>
+    </div>
+
+    <div class="grid g4 rv rv-d3" style="margin-top:20px">
+      <div class="kpi" style="--accent:var(--green)"><div class="kpi__label">Euros de salaire Naval Group annuel (net avant IR)</div><div class="kpi__value" data-v="ngAnnuelAvantIR"></div><div class="kpi__note"><b data-v="ngAnnuelNetIR"></b> après IR</div></div>
+      <div class="kpi" style="--accent:var(--blue)"><div class="kpi__label">Euros de revenus mensuels consultant + CDI (an 1)</div><div class="kpi__value" data-v="revMensuelTotalAn1"></div><div class="kpi__note">dont <b data-v="netMensuelConsAn1"></b> de consultant</div></div>
+      <div class="kpi" style="--accent:var(--orange)"><div class="kpi__label">Euros de dépenses mensuelles</div><div class="kpi__value" data-v="depensesMensuelles"></div><div class="kpi__note">train de vie complet</div></div>
+      <div class="kpi kpi--accent" style="--accent:var(--teal)"><div class="kpi__label">Euros de liquidités supplémentaires par mois (an 1)</div><div class="kpi__value" data-v="epargneMensAn1"></div><div class="kpi__note">soit <b data-v="epargneAnAn1"></b> sur l'année</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════ 07 · SYNTHÈSE ANNUELLE ════════════ -->
+<section id="annuel">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">07 · SYNTHÈSE ANNUELLE</span>
+      <h2>Chaque exercice, ligne à ligne</h2>
+      <p>Les agrégats par année civile. La dernière ligne d'exercice peut être partielle si l'horizon ne couvre pas douze mois.</p>
+    </div>
+
+    <div class="tablewrap rv rv-d1">
+      <div class="table-cap">
+        <h4>Compte de résultat simplifié par exercice</h4>
+        <span>consultant + salariat</span>
+        <button class="btn btn--sm btn--ghost" id="btnCsvAn">↓ CSV</button>
+      </div>
+      <div class="tablescroll sticky-1">
+        <table id="tblAnnuel">
+          <thead><tr>
+            <th>Exercice</th><th>Mois</th><th>CA déploiement</th><th>CA abonnements</th><th>CA total</th>
+            <th>Part MRR</th><th>Net consultant</th><th>Salaire net IR</th><th>Revenu total net</th>
+            <th>Dépenses</th><th>Épargne</th><th>Clients fin</th><th>MRR fin</th>
+            <th>Heures</th><th>€/h net</th><th>€/j (base <span data-v="joursAn"></span>)</th>
+          </tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="grid g2 rv rv-d2" style="margin-top:18px">
+      <div class="card chart-card">
+        <h4>Chiffre d'affaires annuel : déploiement contre abonnements</h4>
+        <p class="cap">L'inversion de dominante se lit d'un coup d'œil.</p>
+        <div class="chart-host" id="ch-annuelCa"></div>
+      </div>
+      <div class="card chart-card">
+        <h4>Revenu total net par exercice</h4>
+        <p class="cap">Salaire net IR + net consultant, dépenses en repère.</p>
+        <div class="chart-host" id="ch-annuelRev"></div>
+      </div>
+    </div>
+
+    <div class="card chart-card rv rv-d3" style="margin-top:18px">
+      <h4>Cascade du chiffre d'affaires vers le revenu net — exercice <span data-v="an2Annee"></span></h4>
+      <p class="cap">Ce qui entre, ce que l'État et les API prélèvent, ce qui reste, ce que le train de vie absorbe.</p>
+      <div class="chart-host" id="ch-waterfall"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ 08 · ANNÉE 1 ═══════════════ -->
+<section id="an1" class="alt">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">08 · ANNÉE 1</span>
+      <h2>Exercice <span data-v="an1Annee"></span> — l'amorçage</h2>
+      <p>La première année, l'essentiel du chiffre d'affaires vient de la prestation de déploiement. Le MRR n'est encore qu'une promesse : il ne représente que <span data-v="an1PartMrr"></span> du CA.</p>
+    </div>
+    <div class="grid g4 rv rv-d1">
+      <div class="kpi" style="--accent:var(--blue)"><div class="kpi__label">CA annuel</div><div class="kpi__value" data-v="an1Ca"></div><div class="kpi__note"><b data-v="an1CaDep"></b> déploiement + <b data-v="an1Mrr"></b> MRR</div></div>
+      <div class="kpi" style="--accent:var(--green)"><div class="kpi__label">Net IR annuel en tant que consultant</div><div class="kpi__value" data-v="an1Net"></div><div class="kpi__note">à <span data-v="tauxNetIRCons"></span> du CA</div></div>
+      <div class="kpi" style="--accent:var(--green)"><div class="kpi__label">Net IR mensuel en tant que consultant</div><div class="kpi__value" data-v="an1NetMensuel"></div><div class="kpi__note">moyenne sur 12 mois</div></div>
+      <div class="kpi" style="--accent:var(--indigo)"><div class="kpi__label">Euros total de revenus annuels consultant + Naval Group</div><div class="kpi__value" data-v="an1RevenuTotal"></div><div class="kpi__note">dont <b data-v="ngAnnuelNetIR"></b> de salaire</div></div>
+      <div class="kpi" style="--accent:var(--teal)"><div class="kpi__label">Euros/heure pour <span data-v="joursAn"></span> de travail par an</div><div class="kpi__value" data-v="an1EuroHeure208"></div><div class="kpi__note">revenu total ÷ <span data-v="heuresDispoAn"></span></div></div>
+      <div class="kpi" style="--accent:var(--teal)"><div class="kpi__label">Euros/jour pour <span data-v="joursAn"></span> de travail par an</div><div class="kpi__value" data-v="an1EuroJour208"></div><div class="kpi__note">revenu total ÷ <span data-v="joursAn"></span></div></div>
+      <div class="kpi" style="--accent:var(--orange)"><div class="kpi__label">Euros de liquidités (épargne) annuelles</div><div class="kpi__value" data-v="an1Epargne"></div><div class="kpi__note"><b data-v="an1EpargneMens"></b> par mois</div></div>
+      <div class="kpi" style="--accent:var(--purple)"><div class="kpi__label">Clients actifs en fin d'exercice</div><div class="kpi__value" data-v="an1ClientsFin"></div><div class="kpi__note">MRR de sortie : <b data-v="an1MrrFin"></b></div></div>
+    </div>
+    <div class="grid g2 rv rv-d2" style="margin-top:18px">
+      <div class="card chart-card">
+        <h4>Montée en charge du MRR sur l'exercice <span data-v="an1Annee"></span></h4>
+        <p class="cap">Douze mois pour construire une base de <span data-v="an1ClientsFin"></span> clients.</p>
+        <div class="chart-host" id="ch-an1"></div>
+      </div>
+      <div class="card card--pad">
+        <h4 class="sub2" style="margin-top:0">Lecture de l'année 1</h4>
+        <div class="note">
+          <p>Le revenu consultant net (<b data-v="an1NetMensuel"></b>/mois en moyenne) reste inférieur au salaire (<b data-v="salaireNetIRMensuel"></b>). C'est normal : l'année 1 finance la construction de la base d'abonnés.</p>
+        </div>
+        <div class="note note--ok" style="margin-top:12px">
+          <p>En revanche, le revenu total mensuel passe de <b data-v="an1RevMois1"></b> à <b data-v="an1RevMois12"></b>, soit <b data-v="an1Progression"></b> de progression sur douze mois, sans augmenter le temps de travail.</p>
+        </div>
+        <div class="formula" style="margin-top:12px">CA an 1        = <span data-v="an1CaDep"></span> (déploiement) + <span data-v="an1Mrr"></span> (MRR)
+Net IR         = CA × <span data-v="tauxNetIRCons"></span> = <span data-v="an1Net"></span>
++ salaire net  = <span data-v="ngAnnuelNetIR"></span>
+= revenu total = <span data-v="an1RevenuTotal"></span>
+− dépenses     = <span data-v="an1Depenses"></span>
+= épargne      = <span data-v="an1Epargne"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ 09 · ANNÉE 2 ═══════════════ -->
+<section id="an2">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">09 · ANNÉE 2</span>
+      <h2>Exercice <span data-v="an2Annee"></span> — la bascule vers le récurrent</h2>
+      <p>Deuxième année : le stock d'abonnés produit désormais <span data-v="an2PartMrr"></span> du chiffre d'affaires. Le même volume de travail rapporte <span data-v="an2VsAn1"></span> de plus qu'en année 1.</p>
+    </div>
+    <div class="grid g4 rv rv-d1">
+      <div class="kpi" style="--accent:var(--indigo)"><div class="kpi__label">Nombre de clients la deuxième année</div><div class="kpi__value" data-v="an2ClientsFin"></div><div class="kpi__note">en fin d'exercice</div></div>
+      <div class="kpi" style="--accent:var(--purple)"><div class="kpi__label">Taux de rétention annuel</div><div class="kpi__value" data-v="tauxRetention"></div><div class="kpi__note">churn mensuel <b data-v="churnMensuel"></b></div></div>
+      <div class="kpi" style="--accent:var(--blue)"><div class="kpi__label">Automatisations vendues par semaine</div><div class="kpi__value" data-v="autoSemaine"></div><div class="kpi__note">soit <b data-v="clientsAn"></b> par an</div></div>
+      <div class="kpi" style="--accent:var(--blue)"><div class="kpi__label">Automatisations vendues par an</div><div class="kpi__value" data-v="clientsAn"></div><div class="kpi__note">à <span data-v="tauxConversion"></span> de conversion</div></div>
+
+      <div class="kpi kpi--accent" style="--accent:var(--teal)"><div class="kpi__label">MRR généré la deuxième année</div><div class="kpi__value" data-v="an2Mrr"></div><div class="kpi__note">cumul des 12 mois d'abonnement</div></div>
+      <div class="kpi" style="--accent:var(--teal)"><div class="kpi__label">Euros de MRR par automatisation</div><div class="kpi__value" data-v="prixAbo"></div><div class="kpi__note">par mois et par client</div></div>
+      <div class="kpi" style="--accent:var(--green)"><div class="kpi__label">MRR net d'IR la deuxième année</div><div class="kpi__value" data-v="an2MrrNet"></div><div class="kpi__note">à <span data-v="tauxNetIRCons"></span></div></div>
+      <div class="kpi" style="--accent:var(--green)"><div class="kpi__label">Euros nets de MRR par heure travaillée sur l'agent IA</div><div class="kpi__value" data-v="an2NetMrrParHeure"></div><div class="kpi__note">sur <b data-v="heuresTotalAn"></b> annuelles</div></div>
+
+      <div class="kpi" style="--accent:var(--orange)"><div class="kpi__label">Euros mensuels nets IR déploiement + MRR</div><div class="kpi__value" data-v="an2NetMensuelCons"></div><div class="kpi__note">contre <b data-v="an1NetMensuel"></b> en année 1</div></div>
+      <div class="kpi" style="--accent:var(--orange)"><div class="kpi__label">Euros mensuels nets consultant + Naval Group</div><div class="kpi__value" data-v="an2NetMensuelTotal"></div><div class="kpi__note">revenu personnel disponible</div></div>
+      <div class="kpi" style="--accent:var(--pink)"><div class="kpi__label">Euros de liquidités disponibles par mois après dépenses</div><div class="kpi__value" data-v="an2EpargneMens"></div><div class="kpi__note">après <b data-v="depensesMensuelles"></b></div></div>
+      <div class="kpi" style="--accent:var(--pink)"><div class="kpi__label">Euros de liquidités ajoutées sur l'année</div><div class="kpi__value" data-v="an2Epargne"></div><div class="kpi__note">capacité d'investissement</div></div>
+
+      <div class="kpi kpi--accent" style="--accent:var(--blue)"><div class="kpi__label">Euros/heure équivalent agent IA, deuxième année</div><div class="kpi__value" data-v="an2EuroHeure"></div><div class="kpi__note">net IR ÷ heures réellement travaillées</div></div>
+      <div class="kpi" style="--accent:var(--muted)"><div class="kpi__label">CA annuel de l'exercice</div><div class="kpi__value" data-v="an2Ca"></div><div class="kpi__note"><b data-v="an2CaDep"></b> déploiement</div></div>
+      <div class="kpi" style="--accent:var(--muted)"><div class="kpi__label">Revenu total net de l'exercice</div><div class="kpi__value" data-v="an2RevenuTotal"></div><div class="kpi__note">consultant + salariat</div></div>
+      <div class="kpi" style="--accent:var(--muted)"><div class="kpi__label">Euros/jour pour <span data-v="joursAn"></span> de travail</div><div class="kpi__value" data-v="an2EuroJour208"></div><div class="kpi__note"><b data-v="an2EuroHeure208"></b> par heure</div></div>
+    </div>
+
+    <div class="grid g2 rv rv-d2" style="margin-top:18px">
+      <div class="card chart-card">
+        <h4>Année 1 contre année 2, poste par poste</h4>
+        <p class="cap">Même charge de travail, structure de revenu différente.</p>
+        <div class="chart-host" id="ch-an1an2"></div>
+      </div>
+      <div class="card chart-card">
+        <h4>Progression du revenu net mensuel sur l'exercice <span data-v="an2Annee"></span></h4>
+        <p class="cap">Consultant net, salaire, et total disponible.</p>
+        <div class="chart-host" id="ch-an2"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════ 10 · ANNÉE 3 ═══════════════ -->
+<section id="an3" class="alt">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">10 · ANNÉE 3 &amp; RÉGIME PERMANENT</span>
+      <h2>Exercice <span data-v="an3Annee"></span> et plateau théorique</h2>
+      <p>À rythme d'acquisition constant, la base clients converge vers un plateau où les entrées compensent exactement le churn. Ce plafond mathématique est le vrai plafond du modèle.</p>
+    </div>
+    <div class="grid g4 rv rv-d1">
+      <div class="kpi" style="--accent:var(--blue)"><div class="kpi__label">CA annuel exercice <span data-v="an3Annee"></span></div><div class="kpi__value" data-v="an3Ca"></div><div class="kpi__note"><b data-v="an3PartMrr"></b> de MRR</div></div>
+      <div class="kpi" style="--accent:var(--green)"><div class="kpi__label">Net consultant sur l'exercice</div><div class="kpi__value" data-v="an3Net"></div><div class="kpi__note"><b data-v="an3NetMensuel"></b> par mois</div></div>
+      <div class="kpi" style="--accent:var(--indigo)"><div class="kpi__label">Revenu total net de l'exercice</div><div class="kpi__value" data-v="an3RevenuTotal"></div><div class="kpi__note"><b data-v="an3NetMensuelTotal"></b> par mois</div></div>
+      <div class="kpi" style="--accent:var(--orange)"><div class="kpi__label">Épargne annuelle</div><div class="kpi__value" data-v="an3Epargne"></div><div class="kpi__note"><b data-v="an3EpargneMens"></b> par mois</div></div>
+      <div class="kpi kpi--accent" style="--accent:var(--purple)"><div class="kpi__label">Plateau : clients à l'équilibre entrées/churn</div><div class="kpi__value" data-v="plateauClients"></div><div class="kpi__note">atteint à 90 % en <b data-v="plateauDelai"></b></div></div>
+      <div class="kpi" style="--accent:var(--purple)"><div class="kpi__label">MRR au plateau</div><div class="kpi__value" data-v="plateauMrr"></div><div class="kpi__note">soit <b data-v="plateauArr"></b> d'ARR</div></div>
+      <div class="kpi" style="--accent:var(--teal)"><div class="kpi__label">CA annuel au plateau</div><div class="kpi__value" data-v="plateauCa"></div><div class="kpi__note">abonnements + déploiements</div></div>
+      <div class="kpi" style="--accent:var(--green)"><div class="kpi__label">Net IR annuel au plateau</div><div class="kpi__value" data-v="plateauNet"></div><div class="kpi__note">pour <b data-v="heuresTotalAn"></b> travaillées</div></div>
+    </div>
+    <div class="card chart-card rv rv-d2" style="margin-top:18px">
+      <h4>Convergence de la base clients vers son plateau</h4>
+      <p class="cap">La courbe pleine est la projection ; la ligne pointillée est l'asymptote théorique <span data-v="plateauClients"></span>.</p>
+      <div class="chart-host" id="ch-plateau"></div>
+    </div>
+    <div class="note note--warn rv rv-d3" style="margin-top:16px">
+      <h4>Le plafond du modèle</h4>
+      <p>Avec <b data-v="diagSem"></b> et <b data-v="tauxRetention"></b> de rétention, le MRR ne peut pas dépasser <b data-v="plateauMrr"></b>. Pour aller au-delà, il faut agir sur trois leviers seulement : plus de diagnostics, une meilleure conversion, ou une meilleure rétention. Le prix est un quatrième levier, sans plafond de temps.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ 11 · COMPARATIF ═══════════════ -->
+<section id="comparatif">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">11 · COMPARATIF</span>
+      <h2>Combien vaut une heure, selon où vous la mettez</h2>
+      <p>La comparaison qui décide de tout : une heure de salariat, une heure d'implémentation facturée, une heure de business consultant tout compris, et une heure « agent IA » en année 2 quand le MRR travaille pour vous.</p>
+    </div>
+    <div class="card chart-card rv rv-d1">
+      <h4>Rendement net d'impôt par heure travaillée</h4>
+      <p class="cap">Toutes les valeurs sont nettes d'impôt, donc directement comparables.</p>
+      <div class="chart-host" id="ch-euroheure"></div>
+    </div>
+    <div class="grid g2 rv rv-d2" style="margin-top:18px">
+      <div class="card card--pad">
+        <h4 class="sub2" style="margin-top:0">Salariat Naval Group</h4>
+        <dl class="kv">
+          <dt>Salaire net annuel avant IR</dt><dd data-v="ngAnnuelAvantIR"></dd>
+          <dt>Salaire net annuel après IR</dt><dd data-v="ngAnnuelNetIR"></dd>
+          <dt>Heures de présence annuelles</dt><dd data-v="ngPresenceAn"></dd>
+          <dt>Net IR par heure de présence</dt><dd data-v="ngEuroHeure"></dd>
+          <dt>Net IR par heure de travail réel</dt><dd data-v="ngEuroHeureCerebral"></dd>
+          <dt>Jours sur site par an</dt><dd data-v="ngJoursSite"></dd>
+        </dl>
+      </div>
+      <div class="card card--pad">
+        <h4 class="sub2" style="margin-top:0">Activité consultant IA</h4>
+        <dl class="kv">
+          <dt>Heures annuelles engagées</dt><dd data-v="heuresTotalAn"></dd>
+          <dt>Net IR par heure — année 1</dt><dd data-v="an1EuroHeureNet"></dd>
+          <dt>Net IR par heure — année 2</dt><dd data-v="an2EuroHeure"></dd>
+          <dt>Net IR par heure — année 3</dt><dd data-v="an3EuroHeure"></dd>
+          <dt>Net IR par heure au plateau</dt><dd data-v="plateauEuroHeure"></dd>
+          <dt>Facteur de progression an 1 → plateau</dt><dd data-v="facteurProgression"></dd>
+        </dl>
+      </div>
+    </div>
+    <div class="note rv rv-d3" style="margin-top:16px">
+      <h4>La bascule</h4>
+      <p>Dès l'année <span data-v="anneeDepassement"></span>, une heure investie dans l'activité de consultant rapporte davantage, net d'impôt, qu'une heure de présence salariée. La raison n'est pas le tarif horaire d'implémentation — il est proche — mais le fait que les heures passées se cumulent dans le MRR au lieu de disparaître.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ 12 · JALONS ═══════════════ -->
+<section id="jalons" class="alt">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">12 · JALONS</span>
+      <h2>Quand chaque cap est franchi</h2>
+      <p>Les dates auxquelles le modèle atteint ses seuils significatifs, à paramètres constants.</p>
+    </div>
+    <div class="tablewrap rv rv-d1">
+      <div class="table-cap"><h4>Seuils et dates de franchissement</h4><span>calculés sur l'horizon projeté</span></div>
+      <div class="tablescroll">
+        <table id="tblJalons">
+          <thead><tr><th>Jalon</th><th>Condition</th><th>Date</th><th>Rang</th><th>MRR à cette date</th><th>Revenu total net</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="grid g3 rv rv-d2" style="margin-top:18px">
+      <div class="kpi" style="--accent:var(--blue)"><div class="kpi__label">Le MRR dépasse le CA de déploiement</div><div class="kpi__value sm" data-v="jalonMrrDepasse"></div><div class="kpi__note">le récurrent devient majoritaire</div></div>
+      <div class="kpi" style="--accent:var(--green)"><div class="kpi__label">Le net consultant égale le salaire net IR</div><div class="kpi__value sm" data-v="jalonNetSalaire"></div><div class="kpi__note">seuil : <b data-v="salaireNetIRMensuel"></b>/mois</div></div>
+      <div class="kpi" style="--accent:var(--orange)"><div class="kpi__label">Le MRR net seul couvre les dépenses</div><div class="kpi__value sm" data-v="jalonMrrDepenses"></div><div class="kpi__note">indépendance : <b data-v="depensesMensuelles"></b>/mois</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════════════════════════════════ 13 · SENSIBILITÉ ════════════ -->
+<section id="sensibilite">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">13 · SENSIBILITÉ</span>
+      <h2>Ce qui bouge quand les hypothèses bougent</h2>
+      <p>Deux matrices de <span data-v="mrrFinal"></span> — le MRR au dernier mois projeté — pour identifier les leviers qui comptent vraiment. La case en surbrillance correspond à vos paramètres actuels.</p>
+    </div>
+    <div class="card chart-card rv rv-d1">
+      <h4>Levier volume : diagnostics par semaine × taux de conversion</h4>
+      <p class="cap">Le volume de diagnostics est le levier le plus puissant, mais aussi le plus coûteux en temps.</p>
+      <div class="chart-host" id="ch-sens1"></div>
+    </div>
+    <div class="card chart-card rv rv-d2" style="margin-top:18px">
+      <h4>Levier valeur : prix de l'abonnement × taux de rétention</h4>
+      <p class="cap">Augmenter le prix ne coûte aucune heure supplémentaire. C'est le levier au meilleur rendement.</p>
+      <div class="chart-host" id="ch-sens2"></div>
+    </div>
+    <div class="grid g3 rv rv-d3" style="margin-top:18px">
+      <div class="note"><h4>+10 € sur l'abonnement</h4><p>MRR final : <b data-v="lev10Mrr"></b> (<span data-v="lev10Delta"></span>). Zéro heure de travail supplémentaire.</p></div>
+      <div class="note"><h4>+1 diagnostic / semaine</h4><p>MRR final : <b data-v="levDiagMrr"></b> (<span data-v="levDiagDelta"></span>), au prix de <b data-v="levDiagHeures"></b> par an.</p></div>
+      <div class="note"><h4>Rétention <span data-v="tauxRetention"></span> → <span data-v="retentionPlus"></span></h4><p>MRR final : <b data-v="levRetMrr"></b> (<span data-v="levRetDelta"></span>). Levier du support et de la qualité.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ 14 · SCÉNARIOS ════════════ -->
+<section id="scenarios" class="alt">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">14 · SCÉNARIOS</span>
+      <h2>Cinq trajectoires, du pire au meilleur</h2>
+      <p>Chaque scénario combine plusieurs hypothèses simultanément — c'est ainsi que la réalité se comporte, rarement une variable à la fois.</p>
+    </div>
+    <div class="tablewrap rv rv-d1">
+      <div class="table-cap"><h4>Comparaison des scénarios sur l'horizon complet</h4><span><span data-v="nbMois"></span> mois</span></div>
+      <div class="tablescroll">
+        <table id="tblScenarios">
+          <thead><tr><th>Scénario</th><th>Hypothèses</th><th>Clients fin</th><th>MRR final</th><th>CA cumulé</th><th>Net cumulé</th><th>Net moyen/mois</th><th>Revenu total/mois</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card chart-card rv rv-d2" style="margin-top:18px">
+      <h4>MRR final et net cumulé selon le scénario</h4>
+      <p class="cap">L'écart entre pessimiste et agressif atteint un facteur <span data-v="ecartScenarios"></span>.</p>
+      <div class="chart-host" id="ch-scenarios"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ 15 · RISQUES ══════════════ -->
+<section id="risques">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">15 · RISQUES &amp; LEVIERS</span>
+      <h2>Ce qui casse le modèle, ce qui l'accélère</h2>
+      <p>Une projection n'est pas une prévision. Voici les hypothèses les plus fragiles et les contre-mesures concrètes.</p>
+    </div>
+    <div class="grid g2 rv rv-d1">
+      <div class="grid" style="align-content:start">
+        <div class="note note--risk">
+          <h4>⚠︎ Le taux de conversion à <span data-v="tauxConversion"></span> est optimiste</h4>
+          <p>Un diagnostic gratuit converti une fois sur deux est un très bon ratio en prestation B2B. À <span data-v="conv25"></span>, le MRR final tombe à <b data-v="mrrConv25"></b>. Contre-mesure : qualifier avant le diagnostic pour ne pas brûler d'heures.</p>
+        </div>
+        <div class="note note--risk">
+          <h4>⚠︎ La rétention à <span data-v="tauxRetention"></span> suppose un agent qui reste utile</h4>
+          <p>Un agent OCR qui casse sur un nouveau format de devis se désabonne. Le coût de maintenance n'est pas isolé ici : il est absorbé dans le taux de <span data-v="tauxNetIRCons"></span>. Contre-mesure : provisionner explicitement des heures de support. À raison de 30 min par client et par mois, le support atteint 10 % de votre temps annuel dès <b data-v="seuilSupport"></b>.</p>
+        </div>
+        <div class="note note--risk">
+          <h4>⚠︎ La charge combinée atteint <span data-v="heuresEngageesHebdo"></span> par semaine</h4>
+          <p>Salariat plus business. Ce rythme tient quelques trimestres, pas trois ans. Contre-mesure : le jalon <b data-v="jalonNetSalaire"></b> ouvre la possibilité de réduire encore le temps salarié.</p>
+        </div>
+        <div class="note note--warn">
+          <h4>⚠︎ Le taux net de <span data-v="tauxNetIRCons"></span> agrège trop de choses</h4>
+          <p>Cotisations, IR et frais d'API dans un seul chiffre. Si les frais d'API dérivent avec le volume, ce taux se dégrade sans prévenir. Contre-mesure : suivre le coût d'API par client dès les premiers déploiements.</p>
+        </div>
+      </div>
+      <div class="grid" style="align-content:start">
+        <div class="note note--ok">
+          <h4>✓ Le prix est le levier au meilleur rendement</h4>
+          <p>Passer l'abonnement de <span data-v="prixAbo"></span> à <span data-v="prixAbo25"></span> ajoute <b data-v="gainPrix25"></b> de MRR final sans une heure de travail supplémentaire. Un agent qui traite 200 devis par mois économise bien plus que cela en saisie manuelle.</p>
+        </div>
+        <div class="note note--ok">
+          <h4>✓ Le modèle est cumulatif par construction</h4>
+          <p>Chaque client signé continue de payer sans consommer d'heures. C'est ce qui fait passer le rendement de <b data-v="an1EuroHeureNet"></b> l'heure en année 1 à <b data-v="plateauEuroHeure"></b> au plateau.</p>
+        </div>
+        <div class="note note--ok">
+          <h4>✓ Le risque financier est asymétrique</h4>
+          <p>Le salaire de <span data-v="salaireNetMensuel"></span> couvre les dépenses de <span data-v="depensesMensuelles"></span> quoi qu'il arrive. Le pire scénario n'est pas une perte, c'est un coût d'opportunité en heures.</p>
+        </div>
+        <div class="note">
+          <h4>→ Le second produit</h4>
+          <p>Un client qui paie déjà <span data-v="prixAbo"></span>/mois pour un agent OCR devis achètera plus facilement un second agent. Doubler le MRR par client sans nouveau diagnostic est le chemin le plus court vers <b data-v="plateauMrr2x"></b> de MRR au plateau.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ 16 · ANNEXE ═══════════════ -->
+<section id="annexe" class="alt">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="sec-num">16 · ANNEXE</span>
+      <h2>Toutes les formules du moteur</h2>
+      <p>Le modèle est entièrement déterministe : aucune valeur n'est saisie en dur en dehors des paramètres de la section 02.</p>
+    </div>
+    <div class="grid g2 rv rv-d1">
+      <div class="card card--pad">
+        <h4 class="sub2" style="margin-top:0">Entonnoir commercial</h4>
+        <div class="formula">semaines_travaillées   = jours_travaillés_an / 5
+diagnostics_an         = diagnostics_semaine × semaines_travaillées
+clients_an             = diagnostics_an × taux_conversion
+nouveaux_clients_mois  = clients_an / 12
+automatisations_sem    = diagnostics_semaine × taux_conversion</div>
+        <h4 class="sub2">Charge horaire</h4>
+        <div class="formula">heures_par_automatisation = jours_déploiement × heures_par_jour
+heures_diagnostic_an      = diagnostics_an × durée_diagnostic
+heures_déploiement_an     = clients_an × heures_par_automatisation
+heures_marketing_an       = jours_marketing_sem × semaines × heures_par_jour
+heures_total_an           = diag + déploiement + marketing
+jours_équivalents_sem     = (heures_total_an / semaines) / heures_par_jour</div>
+        <h4 class="sub2">Churn et rétention</h4>
+        <div class="formula">churn_mensuel   = 1 − rétention_annuelle^(1/12)
+survie_mensuelle = 1 − churn_mensuel
+durée_vie_mois   = 1 / churn_mensuel
+LTV_brute        = prix_déploiement + prix_abo / churn_mensuel</div>
+      </div>
+      <div class="card card--pad">
+        <h4 class="sub2" style="margin-top:0">Récurrence mensuelle</h4>
+        <div class="formula">clients(t)  = clients(t−1) × (1 − churn) + nouveaux
+MRR(t)      = clients(t) × prix_abonnement
+CA_dépl(t)  = nouveaux × prix_déploiement
+CA_total(t) = CA_dépl(t) + MRR(t)</div>
+        <h4 class="sub2">Du CA au revenu disponible</h4>
+        <div class="formula">net_consultant(t) = CA_total(t) × taux_net_IR_consultant
+salaire_net(t)    = salaire_mensuel × taux_net_IR_salaire
+revenu_total(t)   = net_consultant(t) + salaire_net(t)
+épargne(t)        = revenu_total(t) − dépenses_mensuelles</div>
+        <h4 class="sub2">Régime permanent</h4>
+        <div class="formula">clients_plateau = nouveaux_mois / churn_mensuel
+MRR_plateau     = clients_plateau × prix_abonnement
+CA_plateau_an   = MRR_plateau × 12 + clients_an × prix_déploiement</div>
+        <h4 class="sub2">Salariat</h4>
+        <div class="formula">h_présence_an  = jours_sem × h_présence_jour × semaines_an
+h_cérébral_an  = jours_sem × h_cérébral_jour × semaines_an
+jours_site_an  = (jours_sem − télétravail) × semaines_an
+€/h_présence   = salaire_net_IR_an / h_présence_an</div>
+      </div>
+    </div>
+
+    <div class="tablewrap rv rv-d2" style="margin-top:22px">
+      <div class="table-cap">
+        <h4>Récapitulatif de tous les paramètres</h4>
+        <span>valeur active et valeur par défaut</span>
+        <button class="btn btn--sm btn--ghost" id="btnCsvParams">↓ CSV</button>
+      </div>
+      <div class="tablescroll">
+        <table id="tblParams">
+          <thead><tr><th>Groupe</th><th>Paramètre</th><th>Valeur active</th><th>Par défaut</th><th>Unité</th><th>État</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="tablewrap rv rv-d3" style="margin-top:22px">
+      <div class="table-cap">
+        <h4>Fiche de tous les indicateurs calculés</h4>
+        <span>la liste complète des résultats de l'étude</span>
+        <button class="btn btn--sm btn--ghost" id="btnCsvIndic">↓ CSV</button>
+      </div>
+      <div class="tablescroll" style="--tmax:560px">
+        <table id="tblIndicateurs">
+          <thead><tr><th>Catégorie</th><th>Indicateur</th><th>Valeur</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════ FOOTER ════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <h5>L'étude</h5>
+        <ul>
+          <li>Horizon : <span data-v="horizonTexte"></span></li>
+          <li><span data-v="nbMois"></span> mois projetés</li>
+          <li><span data-v="nbParams"></span> paramètres réglables</li>
+          <li>Recalcul intégral instantané</li>
+        </ul>
+      </div>
+      <div>
+        <h5>Hypothèses clés</h5>
+        <ul>
+          <li>Abonnement <span data-v="prixAbo"></span>/mois</li>
+          <li>Déploiement <span data-v="prixDeploiement"></span></li>
+          <li>Conversion <span data-v="tauxConversion"></span></li>
+          <li>Rétention <span data-v="tauxRetention"></span></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Résultats</h5>
+        <ul>
+          <li>MRR final <span data-v="mrrFinal"></span></li>
+          <li>CA cumulé <span data-v="caCumule"></span></li>
+          <li>Épargne cumulée <span data-v="epargneCumulee"></span></li>
+          <li>Charge <span data-v="joursEqHebdo"></span>/semaine</li>
+        </ul>
+      </div>
+      <div>
+        <h5>Réserves</h5>
+        <ul>
+          <li>Projection déterministe, pas une prévision</li>
+          <li>Fiscalité approchée par un taux global</li>
+          <li>Acquisition supposée linéaire</li>
+          <li>Aucun coût fixe d'infrastructure isolé</li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin-top:30px;font-size:12px;color:var(--muted-2)">
+      Étude générée localement — aucune donnée n'est transmise. Les paramètres sont stockés dans le navigateur (<code>localStorage</code>).
+    </p>
+  </div>
+</footer>
+
+<button id="totop" aria-label="Revenir en haut">↑</button>
+
+<script src="assets/model.js"></script>
+<script src="assets/charts.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
